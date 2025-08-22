@@ -7,6 +7,7 @@ import PrivateLayout from './layouts/PrivateLayout.tsx'
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import ForgotPassword from './pages/ForgotPassword.tsx';
+import RecoveryPassword from './pages/RecoveryPassword.tsx';
 import Home from './pages/Home.tsx';
 import Workouts from './pages/Workouts.tsx';
 import NewWorkout from './pages/NewWorkout.tsx';
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/forgot-password", element: <ForgotPassword /> },
+      { path: "/recovery-password", element: <RecoveryPassword /> },
     ]
   },
   {
