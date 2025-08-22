@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import PublicLayout from './layouts/PublicLayout.tsx'
 import PrivateLayout from './layouts/PrivateLayout.tsx'
 import Login from './pages/Login.tsx';
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     children: [
+      { path: "/", element: <Navigate to="/login" replace /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/forgot-password", element: <ForgotPassword /> },
