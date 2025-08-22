@@ -4,7 +4,7 @@ import { authApi } from "../api/authApi";
 type Gender = "None" | "Male" | "Female"
 
 interface User {
-  fullname : string;
+  fullName : string;
   gender : Gender;
 }
 
@@ -25,17 +25,16 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   setUser: (user) => set({ user }),
   fetchUser: async () => {
-    await authApi.fetchUser().then(response => {
-      if (response.status === 200) {
-        const userData : User = {
-          fullname: response.data.fullname,
-          gender: genderMap[response.data.gender] || "None"
-        };
-        set({ user: userData as User });
-      } else {
-        set({ user: null });
-      }
-    })
+    const response = await authApi.fetchUser();
+    if (response.status === 200) {
+      const userData: User = {
+        fullName: response.data.fullName,
+        gender: genderMap[response.data.gender] || "None"
+      };
+      set({ user: userData as User });
+    } else {
+      set({ user: null });
+    }
   },
   logout: async () => {
     await authApi.logout();
