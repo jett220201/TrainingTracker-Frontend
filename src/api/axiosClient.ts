@@ -1,6 +1,7 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
 import type { ErrorResponse } from "../types/dto/ErrorResponse";
 
+const retriedRequests = new Set<string>();
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
@@ -10,9 +11,10 @@ axiosClient.interceptors.response.use(
   (response : AxiosResponse) => response,
   async (error: AxiosError<ErrorResponse>) => {
     const originalRequest = error.config as any;
-
-    if (error.response?.status === 401 && !originalRequest._retry) { // Handle unauthorized access
-      originalRequest._retry = true;
+    const isAuthEndpoint = originalRequest?.url?.includes("/auth/login");
+    const requestKey = `${originalRequest.method}-${originalRequest.url}`;
+    if (error.response?.status === 401 && !retriedRequests.has(requestKey) && !isAuthEndpoint) { // Handle unauthorized access
+      retriedRequests.add(requestKey);
       try {
         await axiosClient.post("/auth/refresh");
         return axiosClient(originalRequest); // Retry the request
