@@ -1,4 +1,4 @@
 export interface UserBasicResponse {
-    fullname: string;
+    fullName: string;
     gender : number
 }
