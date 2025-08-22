@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/AuthStore";
 
 export default function PrivateLayout() {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
   if (!user) {
     return <Navigate to="/login" replace />;
