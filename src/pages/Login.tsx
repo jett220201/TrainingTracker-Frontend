@@ -44,14 +44,17 @@ function Login() {
                     <div>
                         <form className="flex flex-col w-80 mt-4 gap-2" onSubmit={handleLogin}>
                             <div>
-                                <IconInput inputId="email" onChange={(e) => { setEmail(e.target.value) }} icon={LucideMail} type="email" placeholder="Enter your email" label="Email Address" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
-                                <IconInput inputId="password" onChange={(e) => { setPassword(e.target.value) }} icon={LucideLock} type="password" placeholder="Enter your password" label="Password" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                <IconInput inputId="email" onChange={(e) => { setEmail(e.target.value) }} 
+                                    icon={LucideMail} type="email" placeholder="Enter your email" label="Email Address" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                <IconInput inputId="password" onChange={(e) => { setPassword(e.target.value) }} 
+                                    icon={LucideLock} type="password" placeholder="Enter your password" label="Password" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                             </div>
                             <div className="flex">
                                 <Link to="/forgot-password" className="text-sm !text-blue-600">Forgot password?</Link>
                             </div>
                             {error && <p className="text-red-500">{error}</p>}
-                            <IconButton label="Sign In" icon={LucideLogIn} classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                            <IconButton label="Sign In" icon={LucideLogIn} 
+                                classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
                         </form>
                     </div>
                 </section>
@@ -60,9 +63,12 @@ function Login() {
                     <Link to="/register" className="text-sm !text-blue-600">Create Account</Link>
                 </section>
                 <section className="flex flex-row gap-10">
-                    <FeatureIcon label="Track Progress" icon={LucideChartLine} classname="bg-blue-100 rounded-full w-10 h-10 flex justify-center items-center text-blue-500" />
-                    <FeatureIcon label="Custom Workouts" icon={LucideDumbbell} classname="bg-orange-100 rounded-full w-10 h-10 flex justify-center items-center text-orange-500" />
-                    <FeatureIcon label="Achievements" icon={LucideTrophy} classname="bg-green-100 rounded-full w-10 h-10 flex justify-center items-center text-green-500" />
+                    <FeatureIcon label="Track Progress" icon={LucideChartLine} 
+                        classname="bg-blue-100 rounded-full w-10 h-10 flex justify-center items-center text-blue-500" />
+                    <FeatureIcon label="Custom Workouts" 
+                        icon={LucideDumbbell} classname="bg-orange-100 rounded-full w-10 h-10 flex justify-center items-center text-orange-500" />
+                    <FeatureIcon label="Achievements" 
+                        icon={LucideTrophy} classname="bg-green-100 rounded-full w-10 h-10 flex justify-center items-center text-green-500" />
                 </section>
             </div>
         </div>
