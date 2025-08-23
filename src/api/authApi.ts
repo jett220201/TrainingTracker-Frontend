@@ -17,12 +17,32 @@ export const authApi = {
     }
   },
   logout: async () => {
-    await axiosClient.post<ApiResponse>("/auth/logout")
-    window.location.href = "/login";
+    try {
+      await axiosClient.post<ApiResponse>("/auth/logout")
+      window.location.href = "/login";
+    }
+    catch (error: any) {
+      const errorData = error.response?.data as ErrorResponse;
+      throw errorData;
+    }
   },
   fetchUser: async () => {
-    const response = await axiosClient.get<UserBasicResponse>("/auth/me");
-    return response;
+    try {
+      const response = await axiosClient.get<UserBasicResponse>("/auth/me");
+      return response;
+    }
+    catch (error: any) {
+      const errorData = error.response?.data as ErrorResponse;
+      throw errorData;
+    }
   },
-  changeLanguage: (request : UserChangeLanguageRequest) => axiosClient.post<ApiResponse>("/auth/lang-change", request),
+  changeLanguage: async (request: UserChangeLanguageRequest) => {
+    try {
+      await axiosClient.post<ApiResponse>("/auth/lang-change", request);
+    }
+    catch (error: any) {
+      const errorData = error.response?.data as ErrorResponse;
+      throw errorData;
+    }
+  },
 };
