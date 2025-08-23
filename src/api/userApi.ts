@@ -1,4 +1,5 @@
 import type { ErrorResponse } from "../types/dto/ErrorResponse";
+import type { UserChangePasswordRecoveryRequest } from "../types/dto/UserChangePasswordRecoveryRequest";
 import type { UserRecoveryPasswordRequest } from "../types/dto/UserRecoveryPasswordRequest";
 import axiosClient from "./axiosClient";
 
@@ -9,8 +10,15 @@ export const userApi = {
     changePassword: async () => {
 
     },
-    changePasswordRecovery: async () => {
-
+    changePasswordRecovery: async (request : UserChangePasswordRecoveryRequest ) => {
+        try {
+            const response = await axiosClient.post("/user/change-password-recovery", request);
+            return response.data;
+        }
+        catch (error : any) {
+            const errorData = error.response?.data as ErrorResponse;
+            throw errorData;
+        }
     },
     recoveryPassword: async (request : UserRecoveryPasswordRequest) => {
         try {
