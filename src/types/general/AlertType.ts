@@ -1,0 +1,1 @@
+export type Alert = "Error" | "Warning" | "Success" | "Tip"
