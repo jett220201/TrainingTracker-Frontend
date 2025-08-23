@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { authApi } from "../api/authApi";
-
-type Gender = "None" | "Male" | "Female"
+import type { Gender } from "../types/general/GenderType";
 
 interface User {
   fullName : string;

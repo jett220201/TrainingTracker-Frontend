@@ -1,0 +1,1 @@
+export type Gender = "None" | "Male" | "Female"

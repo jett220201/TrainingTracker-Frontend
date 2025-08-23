@@ -1,3 +1,3 @@
 export interface UserChangeLanguageRequest {
-    language: string;
+    language : string;
 }
