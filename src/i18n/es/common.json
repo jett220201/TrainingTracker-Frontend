@@ -4,5 +4,7 @@
     "achievementsFeature": "Logros",
     "signIn": "Iniciar sesión",
     "emailLabel": "Correo electrónico",
-    "emailPlaceholder": "Ingresa tu correo"
+    "emailPlaceholder": "Ingresa tu correo",
+    "english": "Inglés",
+    "spanish": "Español"
 }

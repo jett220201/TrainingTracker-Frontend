@@ -4,5 +4,7 @@
     "achievementsFeature": "Achievements",
     "signIn": "Sign In",
     "emailLabel": "Email Address",
-    "emailPlaceholder": "Enter your email"
+    "emailPlaceholder": "Enter your email",
+    "english": "English",
+    "spanish": "Spanish"
 }
