@@ -37,7 +37,7 @@ function getTypeClassname(type: Alert) {
                 containerClass: 'flex flex-row border-1 border-blue-500 bg-blue-50 rounded-md p-2 items-center gap-2 w-90 lg:w-100',
                 iconClass: 'text-blue-500 w-5 h-5',
                 titleClass: 'text-blue-800',
-                bodyClass: 'text-blue-500 whitespace-pre'
+                bodyClass: 'text-blue-500'
             };
     }
 }
