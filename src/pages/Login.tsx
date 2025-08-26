@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import { authApi } from "../api/authApi";
 import type { LoginRequest } from "../types/dto/LoginRequest";
 import { useAuthStore } from "../store/AuthStore";
+import "../i18n";
+import { useTranslation } from "react-i18next";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -15,6 +17,7 @@ function Login() {
     const [error, setError] = useState<string | null>(null)
     const navigate = useNavigate();
     const fetchUser = useAuthStore((state) => state.fetchUser)
+    const {t, i18n} = useTranslation(["login", "common"]);
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -31,43 +34,58 @@ function Login() {
             setError(error.message)
         }
     };
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    }
 
     return (
         <div className="flex w-full h-full flex-col items-center justify-center bg-gray-100">
-            <div className="flex flex-col items-center justify-center gap-12 lg:gap-6">
-                <Header subtitle="Track your fitness journey" />
-                <section className="flex flex-col items-start justify-center bg-white rounded-md shadow-xl p-6 gap-6">
+            <div className="flex flex-col items-center justify-center gap-12 lg:gap-6 my-4">
+                <Header subtitle={t("loginHeaderMessage", { ns: "common" })} />
+                <section className="flex flex-col items-start justify-center bg-white rounded-md shadow-xl p-6 m-2 lg:m-0 gap-6">
                     <div className="flex flex-col gap-2">
-                        <p className="text-black text-left font-bold text-2xl">Welcome Back!</p>
-                        <p className="text-gray-500">Sign in to continue your fitness journey</p>
+                        <p className="text-black text-left font-bold text-2xl">{t("welcome")}</p>
+                        <p className="text-gray-500">{t("welcomeSubtitle")}</p>
                     </div>
                     <div>
                         <form className="flex flex-col w-80 mt-4 gap-2" onSubmit={handleLogin}>
                             <div>
                                 <IconInput inputId="email" onChange={(e) => { setEmail(e.target.value) }} 
-                                    icon={LucideMail} type="email" placeholder="Enter your email" label="Email Address" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                    icon={LucideMail} type="email" placeholder={t("emailPlaceholder", { ns: "common" })} label={t("emailLabel", { ns: "common" })} classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                                 <IconInput inputId="password" onChange={(e) => { setPassword(e.target.value) }} 
-                                    icon={LucideLock} type="password" placeholder="Enter your password" label="Password" classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                    icon={LucideLock} type="password" placeholder={t("passwordPlaceholder")} label={t("passwordLabel")} classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                             </div>
                             <div className="flex">
-                                <Link to="/forgot-password" className="text-sm !text-blue-600">Forgot password?</Link>
+                                <Link to="/forgot-password" className="text-sm !text-blue-600">{t("forgotPassword")}</Link>
                             </div>
                             {error && <p className="text-red-500">{error}</p>}
-                            <IconButton label="Sign In" icon={LucideLogIn} 
+                            <IconButton label={t("signIn", { ns: "common" })} icon={LucideLogIn} 
                                 classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
                         </form>
                     </div>
                 </section>
-                <section className="flex items-center gap-2">
-                    <p className="text-gray-500">Don't have an account?</p>
-                    <Link to="/register" className="text-sm !text-blue-600">Create Account</Link>
+                <section className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-2">
+                        <p className="text-gray-500">{t("dontHaveAccount")}</p>
+                        <Link to="/register" className="text-sm !text-blue-600">{t("createAccount")}</Link>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <p className="text-gray-500">{t("changeLanguage")}</p>
+                        <select 
+                            value={i18n.language}
+                            onChange={(e) => changeLanguage(e.target.value)}
+                            className="p-1 border rounded bg-white border-gray-200 text-gray-500 h-10">
+                            <option value="en">{t("english", { ns: "common" })}</option>
+                            <option value="es">{t("spanish", { ns: "common" })}</option>
+                        </select>
+                    </div>
                 </section>
-                <section className="flex flex-row gap-10">
-                    <FeatureIcon label="Track Progress" icon={LucideChartLine} 
-                        classname="bg-blue-100 rounded-full w-10 h-10 flex justify-center items-center text-blue-500" />
-                    <FeatureIcon label="Custom Workouts" 
+                <section className="flex flex-row gap-8 lg:gap-10">
+                    <FeatureIcon label={t("trackProgressFeature", { ns: "common" })} 
+                        icon={LucideChartLine} classname="bg-blue-100 rounded-full w-10 h-10 flex justify-center items-center text-blue-500" />
+                    <FeatureIcon label={t("customWorkoutFeature", { ns: "common" })} 
                         icon={LucideDumbbell} classname="bg-orange-100 rounded-full w-10 h-10 flex justify-center items-center text-orange-500" />
-                    <FeatureIcon label="Achievements" 
+                    <FeatureIcon label={t("achievementsFeature", { ns: "common" })} 
                         icon={LucideTrophy} classname="bg-green-100 rounded-full w-10 h-10 flex justify-center items-center text-green-500" />
                 </section>
             </div>
