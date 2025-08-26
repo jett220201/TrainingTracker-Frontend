@@ -1,0 +1,10 @@
+{
+    "loginHeaderMessage": "Sigue tu progreso físico",
+    "welcome": "Bienvenido de regreso!",
+    "welcomeSubtitle": "Inicia sesión para continuar con tu progreso físico",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "forgotPassword": "Olvidaste tu constraseña?",
+    "dontHaveAccount": "No tienes una cuenta",
+    "createAccount": "Crear cuenta"
+}
