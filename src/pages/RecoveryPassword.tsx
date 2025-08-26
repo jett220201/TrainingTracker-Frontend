@@ -98,7 +98,7 @@ function RecoveryPassword() {
                                     <IconInput inputId="password" onChange={(e) => setPassword(e.target.value)}
                                         icon={LucideLock} type="password" placeholder="Enter your new password" label="New Password"
                                         classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
-                                    <IconInput inputId="password" onChange={(e) => setConfirmPassword(e.target.value)}
+                                    <IconInput inputId="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}
                                         icon={LucideLock} type="password" placeholder="Confirm your new password" label="Confirm Password"
                                         classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                                 </div>
