@@ -9,6 +9,7 @@ import AlertBlock from "../components/ui/AlertBlock";
 import type { Alert } from "../types/general/AlertType";
 import { userApi } from "../api/userApi";
 import type { UserChangePasswordRecoveryRequest } from "../types/dto/UserChangePasswordRecoveryRequest";
+import { useTranslation } from "react-i18next";
 
 function RecoveryPassword() {
     const [searchParams] = useSearchParams();
@@ -17,6 +18,7 @@ function RecoveryPassword() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null)
     const [alertType, setAlertType] = useState<Alert>("Tip")
+    const {t} = useTranslation(["password", "common"]);
     const hasUppercase = /[A-Z]/; 
     const hasLowercase = /[a-z]/; 
     const hasNumber = /\d/;
@@ -41,7 +43,7 @@ function RecoveryPassword() {
     const checkPasswordValidity = () => {
         if(confirmPassword != password) {
             setAlertType("Error");
-            setMessage("The passwords must be the same.");
+            setMessage(t("passwordSameError"));
         }
         else {
             setMessage("");
@@ -51,22 +53,22 @@ function RecoveryPassword() {
         setMessage("");
         let messages = []
         if(password.length < 10) {
-            messages.push("• At least 8 characters.");
+            messages.push(`• ${t("charactersValidation")}`);
         }
         if(!hasUppercase.test(password)){
-            messages.push("• One uppercase letter.");
+            messages.push(`• ${t("upperCaseValidation")}`);
         }
         if(!hasLowercase.test(password)){
-            messages.push("• One lowercase letter.");
+            messages.push(`• ${t("lowerCaseValidation")}`);
         }
         if(!hasNumber.test(password)){
-            messages.push("• One number.");
+            messages.push(`• ${t("numberValidation")}`);
         }
         if(!hasSpecialChar.test(password)){
-            messages.push("• One special character.");
+            messages.push(`• ${t("specialCharValidation")}`);
         }
         if(messages.length > 0) {
-            messages.push("Password requirements:");
+            messages.push(`${t("passwordRequirements")}`);
         }
         setAlertType("Tip");
         setMessage(messages.reverse().join('\n'))
@@ -83,36 +85,36 @@ function RecoveryPassword() {
     return (
         <div className="flex w-full h-full flex-col items-center justify-center bg-gray-100">
             <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
-                <Header subtitle="Track your fitness journey" />
+                <Header subtitle={t("loginHeaderMessage", { ns: "common" })} />
                 <div className="flex flex-row items-center gap-6">
                     <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
                         <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
                             <div className="flex flex-col items-center gap-2">
                                 <FeatureIcon label="" icon={LucideLockOpen}
                                     classname="bg-green-100 rounded-full w-12 h-12 flex justify-center items-center text-green-500" />
-                                <p className="text-black text-left font-bold text-2xl">Reset Your Password</p>
-                                <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">Create a new secure password for your account.</p>
+                                <p className="text-black text-left font-bold text-2xl">{t("resetPasswordTitle")}</p>
+                                <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">{t("resetPasswordSubtitle")}</p>
                             </div>
                             <form className="flex flex-col w-80 gap-6" onSubmit={handleResetPassword}>
                                 <div className="flex flex-col">
                                     <IconInput inputId="password" onChange={(e) => setPassword(e.target.value)}
-                                        icon={LucideLock} type="password" placeholder="Enter your new password" label="New Password"
+                                        icon={LucideLock} type="password" placeholder={t("newPasswordPlaceholder")} label={t("newPasswordLabel")}
                                         classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                                     <IconInput inputId="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}
-                                        icon={LucideLock} type="password" placeholder="Confirm your new password" label="Confirm Password"
+                                        icon={LucideLock} type="password" placeholder={t("confirmNewPasswordPlaceholder")} label={t("confirmNewPasswordLabel")}
                                         classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                                 </div>
-                                <IconButton label="Reset Password" icon={LucideShield}
+                                <IconButton label={t("resetPassword")} icon={LucideShield}
                                     classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
                             </form>
                         </section>
                         <section className="flex items-center gap-2">
-                            <p className="text-gray-500">Password reset successfully?</p>
-                            <Link to="/login" className="text-sm !text-blue-600">Sign In Now</Link>
+                            <p className="text-gray-500">{t("resetSuccessfully")}</p>
+                            <Link to="/login" className="text-sm !text-blue-600">{t("signInNow")}</Link>
                         </section>
                     </div>
                     {message && <AlertBlock icon={LucideShield}
-                    title="Reset Password"
+                    title={t("resetPassword")}
                     body={message}
                     type={alertType} />}
                 </div>
