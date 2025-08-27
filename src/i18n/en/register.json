@@ -1,5 +1,5 @@
 {
-    "registerTitle": "Create Account",
+    "registerHeaderMessage": "Start your fitness journey today",
     "registerSubtitle": "Join thousands achieving their fitness goals",
     "usernameLabel": "Username",
     "usernamePlaceholder": "Enter your username",
@@ -14,11 +14,15 @@
     "birthLabel": "Birth date",
     "birthPlaceholder": "Enter your birth date",
     "genderLabel": "Gender",
+    "male": "Male",
+    "female": "Female",
     "genderPlaceholder": "Choose your gender",
+    "genderValidation": "You must choose a gender",
     "heightLabel": "Height",
-    "heightPlaceholder": "Enter your eight cm",
+    "heightPlaceholder": "Enter your height cm",
     "agree": "I agree to the",
     "privacyTerms": "Terms of Service and Privacy Policy",
+    "agreeValidation": "You must accept the terms and policies before continuing",
     "createAccount": "Create Account",
     "alreadyAccount": "Already have an account?"
 }

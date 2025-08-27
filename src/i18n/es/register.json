@@ -1,5 +1,5 @@
 {
-    "registerTitle": "Crear cuenta",
+    "registerHeaderMessage": "Empieza tu progreso físico hoy",
     "registerSubtitle": "Únete a miles de personas alcanzando sus metas físicas",
     "usernameLabel": "Nombre de usuario",
     "usernamePlaceholder": "Ingresa tu nombre de usuario",
@@ -14,11 +14,15 @@
     "birthLabel": "Fecha de nacimiento",
     "birthPlaceholder": "Ingresa tu fecha de nacimiento",
     "genderLabel": "Genero",
+    "male": "Masculino",
+    "female": "Femenino",
     "genderPlaceholder": "Selecciona tu genero",
+    "genderValidation": "Debes escoger un genero",
     "heightLabel": "Altura",
     "heightPlaceholder": "Ingresa tu altura en cm",
     "agree": "Estoy de acuerdo con los",
     "privacyTerms": "Términos de servicio y políticas de privacidad",
+    "agreeValidation": "Debes aceptar los términos y políticas antes de continuar",
     "createAccount": "Crear cuenta",
     "alreadyAccount": "Ya tienes una cuenta?"
 }

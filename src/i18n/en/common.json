@@ -1,8 +1,10 @@
 {
+    "loginHeaderMessage": "Track your fitness journey",
     "trackProgressFeature": "Track Progress",
     "customWorkoutFeature": "Custom Workouts",
     "achievementsFeature": "Achievements",
     "signIn": "Sign In",
+    "backLogin": "Back to Login",
     "emailLabel": "Email Address",
     "emailPlaceholder": "Enter your email",
     "english": "English",

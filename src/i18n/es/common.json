@@ -1,8 +1,10 @@
 {
+    "loginHeaderMessage": "Sigue tu progreso físico",
     "trackProgressFeature": "Seguimiento de progreso",
     "customWorkoutFeature": "Rutinas personalizadas",
     "achievementsFeature": "Logros",
     "signIn": "Iniciar sesión",
+    "backLogin": "Volver al inicio",
     "emailLabel": "Correo electrónico",
     "emailPlaceholder": "Ingresa tu correo",
     "english": "Inglés",
