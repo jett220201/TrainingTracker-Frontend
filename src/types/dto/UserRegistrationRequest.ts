@@ -1,12 +1,10 @@
-import type { Gender } from "../general/GenderType";
-
 export interface UserRegistrationRequest {
     userName : string;
     password : string;
     email : string;
     name : string;
     lastName : string;
-    dateOfBirth : Date;
+    dateOfBirth : string;
     height : number;
-    gender : Gender;
+    gender : number;
 }
