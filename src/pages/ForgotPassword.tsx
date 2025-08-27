@@ -9,10 +9,12 @@ import AlertBlock from "../components/ui/AlertBlock";
 import { userApi } from "../api/userApi";
 import type { UserRecoveryPasswordRequest } from "../types/dto/UserRecoveryPasswordRequest";
 import { useTranslation } from "react-i18next";
+import type { Alert } from "../types/general/AlertType";
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState<string | null>(null)
+    const [message, setMessage] = useState<string | null>(null);
+    const [alertType, setAlertType] = useState<Alert>("Tip")
     const {t} = useTranslation(["password", "common"]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,9 +25,11 @@ function ForgotPassword() {
         try {
             const response = await userApi.recoveryPassword(payload as UserRecoveryPasswordRequest);
             setMessage(response.message);
+            setAlertType("Success");
         }
         catch (error : any) {
-            setMessage(error.details != undefined ? error.details : error.message)
+            setMessage(error.details != undefined ? error.details : error.message);
+            setAlertType("Error");
         }
     }
 
@@ -35,7 +39,7 @@ function ForgotPassword() {
                 <Header subtitle={t("loginHeaderMessage", { ns: "common" })} />
                 <div className="flex flex-row w-full gap-4">
                     <LucideArrowLeft className="text-gray-500"></LucideArrowLeft>
-                    <Link to="/login" className="!text-gray-500">{t("backLogin")}</Link>
+                    <Link to="/login" className="!text-gray-500">{t("backLogin", { ns: "common" })}</Link>
                 </div>
                 <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
                     <div className="flex flex-col items-center gap-2">
@@ -51,7 +55,6 @@ function ForgotPassword() {
                                     classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
                             <p className="text-gray-500 text-left text-xs">{t("sendInstructions")}</p>
                         </div>
-                        {message && <p className="text-sky-600">{message}</p>}
                         <IconButton label={t("sendLink")} icon={LucideSend} 
                                     classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800"/>
                     </form>
@@ -61,9 +64,9 @@ function ForgotPassword() {
                     <Link to="/login" className="text-sm !text-blue-600">{t("signIn", { ns: "common" })}</Link>
                 </section>
                 <AlertBlock icon={LucideShield} 
-                            title={t("secureNoticeTitle")} 
-                            body={t("secureNoticeSubtitle")}
-                            type="Tip"/>
+                            title={message != null ? "" : t("secureNoticeTitle")} 
+                            body={message != null ? message : t("secureNoticeSubtitle")}
+                            type={alertType}/>
             </div>
         </div>
     );
