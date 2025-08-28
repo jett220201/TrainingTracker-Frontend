@@ -8,5 +8,12 @@
     "emailLabel": "Email Address",
     "emailPlaceholder": "Enter your email",
     "english": "English",
-    "spanish": "Spanish"
+    "spanish": "Spanish",
+    "dashboard": "Dashboard",
+    "workouts": "My Workouts",
+    "progress": "Progress",
+    "achievements": "My Goals",
+    "exercises": "Exercises Library",
+    "profile": "Profile",
+    "settings": "Settings"
 }
