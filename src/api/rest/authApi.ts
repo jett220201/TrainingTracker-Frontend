@@ -1,9 +1,9 @@
-import axiosClient from "./axiosClient";
-import type { ApiResponse } from "../types/dto/ApiResponse";
-import type { LoginRequest } from "../types/dto/LoginRequest";
-import type { UserChangeLanguageRequest } from "../types/dto/UserChangeLanguageRequest";
-import type { UserBasicResponse } from "../types/dto/UserBasicResponse";
-import type { ErrorResponse } from "../types/dto/ErrorResponse";
+import axiosClient from "../axiosClient";
+import type { ApiResponse } from "../../types/dto/ApiResponse";
+import type { LoginRequest } from "../../types/dto/LoginRequest";
+import type { UserChangeLanguageRequest } from "../../types/dto/UserChangeLanguageRequest";
+import type { UserBasicResponse } from "../../types/dto/UserBasicResponse";
+import type { ErrorResponse } from "../../types/dto/ErrorResponse";
 
 export const authApi = {
   login: async (request : LoginRequest) => {

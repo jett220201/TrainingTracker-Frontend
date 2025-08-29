@@ -1,8 +1,8 @@
-import type { ErrorResponse } from "../types/dto/ErrorResponse";
-import type { UserChangePasswordRecoveryRequest } from "../types/dto/UserChangePasswordRecoveryRequest";
-import type { UserRecoveryPasswordRequest } from "../types/dto/UserRecoveryPasswordRequest";
-import type { UserRegistrationRequest } from "../types/dto/UserRegistrationRequest";
-import axiosClient from "./axiosClient";
+import type { ErrorResponse } from "../../types/dto/ErrorResponse";
+import type { UserChangePasswordRecoveryRequest } from "../../types/dto/UserChangePasswordRecoveryRequest";
+import type { UserRecoveryPasswordRequest } from "../../types/dto/UserRecoveryPasswordRequest";
+import type { UserRegistrationRequest } from "../../types/dto/UserRegistrationRequest";
+import axiosClient from "../axiosClient";
 
 export const userApi = {
     register: async (request : UserRegistrationRequest) => {

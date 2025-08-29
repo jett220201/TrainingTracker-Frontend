@@ -18,6 +18,8 @@ import Progress from './pages/Progress.tsx';
 import Exercises from './pages/Exercises.tsx';
 import Profile from './pages/Profile.tsx';
 import Settings from './pages/Settings.tsx';
+import { ApolloProvider } from '@apollo/client';
+import apolloClient from './api/apolloClient.ts';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ApolloProvider client={apolloClient}>
+      <RouterProvider router={router} />
+    </ApolloProvider>
   </StrictMode>,
 )
