@@ -7,7 +7,7 @@ import IconInput from "../components/ui/IconInput";
 import { IconButton } from "../components/ui/IconButton";
 import AlertBlock from "../components/ui/AlertBlock";
 import type { Alert } from "../types/general/AlertType";
-import { userApi } from "../api/userApi";
+import { userApi } from "../api/rest/userApi";
 import type { UserChangePasswordRecoveryRequest } from "../types/dto/UserChangePasswordRecoveryRequest";
 import { useTranslation } from "react-i18next";
 

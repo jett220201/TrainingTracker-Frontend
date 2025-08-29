@@ -1,15 +1,16 @@
-import { LucideChartLine, LucideDumbbell, LucideLock, LucideLogIn, LucideMail, LucideTrophy } from "lucide-react";
+import { LucideChartLine, LucideDumbbell, LucideLock, LucideLogIn, LucideMail, LucideTrophy, LucideUserX } from "lucide-react";
 import Header from "../components/Public/Header";
 import { IconButton } from "../components/ui/IconButton";
 import { Link, useNavigate } from "react-router-dom";
 import FeatureIcon from "../components/ui/FeatureIcon";
 import IconInput from "../components/ui/IconInput";
 import React, { useState } from "react";
-import { authApi } from "../api/authApi";
+import { authApi } from "../api/rest/authApi";
 import type { LoginRequest } from "../types/dto/LoginRequest";
 import { useAuthStore } from "../store/AuthStore";
 import "../i18n";
 import { useTranslation } from "react-i18next";
+import AlertBlock from "../components/ui/AlertBlock";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -58,12 +59,15 @@ function Login() {
                             <div className="flex">
                                 <Link to="/forgot-password" className="text-sm !text-blue-600">{t("forgotPassword")}</Link>
                             </div>
-                            {error && <p className="text-red-500">{error}</p>}
                             <IconButton label={t("signIn", { ns: "common" })} icon={LucideLogIn} 
                                 classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
                         </form>
                     </div>
                 </section>
+                {error && <AlertBlock icon={LucideUserX}
+                    title=""
+                    body={error}
+                    type={"Error"} />}
                 <section className="flex flex-col items-center gap-1">
                     <div className="flex items-center gap-2">
                         <p className="text-gray-500">{t("dontHaveAccount")}</p>

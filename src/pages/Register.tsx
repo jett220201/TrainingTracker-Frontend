@@ -16,7 +16,7 @@ import { DayPicker } from "react-day-picker";
 import { enUS, es } from "react-day-picker/locale";
 import "react-day-picker/dist/style.css";
 import { useTranslation } from "react-i18next";
-import { userApi } from "../api/userApi";
+import { userApi } from "../api/rest/userApi";
 import type { UserRegistrationRequest } from "../types/dto/UserRegistrationRequest";
 import type { Alert } from "../types/general/AlertType";
 import type { Gender } from "../types/general/GenderType";
