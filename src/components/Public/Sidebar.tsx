@@ -3,6 +3,8 @@ import IconLink from "../ui/IconLink";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/AuthStore";
 import { useEffect, useRef, useState } from "react";
+import { Tooltip } from "react-tooltip";
+import 'react-tooltip/dist/react-tooltip.css'
 
 function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +34,12 @@ function Sidebar() {
     }, []);
 
     return (
-        <div ref={sidebarRef}>
+        <div className="hidden lg:block" ref={sidebarRef}>
             {isOpen ?
                 (<div className="transition-all duration-300 bg-white w-64 min-h-screen p-2 border-r border-gray-200 relative">
-                    <div className="flex flex-row items-center gap-4 p-2 w-80">
-                        <img src="/src/assets/logo.png" alt="FitTracker Logo" className="w-12 h-12 mb-4" />
-                        <p className="text-xl font-bold mb-4 text-black">FitTracker</p>
+                    <div className="flex flex-row items-center gap-4 mb-2 p-2 w-80">
+                        <img src="/src/assets/logo.png" alt="FitTracker Logo" className="w-12 h-12 " />
+                        <p className="text-xl font-bold text-black">FitTracker</p>
                     </div>
                     <hr className="mb-4 bg-gray-500" />
                     <ul className="flex flex-col gap-1 p-2">
@@ -77,27 +79,34 @@ function Sidebar() {
                     </div>
                     <hr className="mb-4 bg-gray-500" />
                     <ul className="flex flex-col gap-6 p-2 pt-4">
-                        <li className="mb-2 hover:cursor-pointer">
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipDashboard" data-tooltip-content={t("dashboard")}>
                             <LucideHouse className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipDashboard" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipWorkouts" data-tooltip-content={t("workouts")}>
                             <LucideDumbbell className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipWorkouts" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipProgress" data-tooltip-content={t("progress")}>
                             <LucideChartLine className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipProgress" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipAchievements" data-tooltip-content={t("achievements")}>
                             <LucideGoal className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipAchievements" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipExercises" data-tooltip-content={t("exercises")}>
                             <LucideBookOpenText className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipExercises" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipProfile" data-tooltip-content={t("profile")}>
                             <LucideUser className="w-6 h-6 text-gray-800"/>
                         </li>
-                        <li className="mb-2 hover:cursor-pointer">
+                        <Tooltip id="tooltipProfile" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipSettings" data-tooltip-content={t("settings")}>
                             <LucideSettings className="w-6 h-6 text-gray-800"/>
                         </li>
+                        <Tooltip id="tooltipSettings" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
                     </ul>
                 </div>)
             }
