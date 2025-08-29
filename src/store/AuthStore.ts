@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { authApi } from "../api/authApi";
+import { authApi } from "../api/rest/authApi";
 import type { Gender } from "../types/general/GenderType";
+import { persist } from "zustand/middleware";
 
 interface User {
   fullName : string;
@@ -20,23 +21,27 @@ const genderMap: Record<number, Gender> = {
   2: "Female",
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  fetchUser: async () => {
-    const response = await authApi.fetchUser();
-    if (response.status === 200) {
-      const userData: User = {
-        fullName: response.data.fullName,
-        gender: genderMap[response.data.gender] || "None"
-      };
-      set({ user: userData as User });
-    } else {
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+    user: null,
+    setUser: (user) => set({ user }),
+    fetchUser: async () => {
+      const response = await authApi.fetchUser();
+      if (response.status === 200) {
+        const userData: User = {
+          fullName: response.data.fullName,
+          gender: genderMap[response.data.gender] || "None"
+        };
+        set({ user: userData as User });
+      } else {
+        set({ user: null });
+      }
+    },
+    logout: async () => {
+      await authApi.logout();
       set({ user: null });
     }
-  },
-  logout: async () => {
-    await authApi.logout();
-    set({ user: null });
-  }
-}));
+  }),
+  { name: "auth-storage" })
+);
