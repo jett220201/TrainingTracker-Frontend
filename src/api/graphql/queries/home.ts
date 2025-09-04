@@ -15,7 +15,7 @@ export const GET_HOME_DATA = gql`
       id
       name
       workoutExercises {
-        exercises {
+        exercise {
           muscleGroup
         }
       }

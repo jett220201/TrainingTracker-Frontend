@@ -1,0 +1,1 @@
+export type MuscleGroup = "None" | "Chest" | "Back" | "Legs" | "Arms" | "Shoulders" | "Core" | "Cardio"
