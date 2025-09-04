@@ -1,0 +1,23 @@
+{
+    "greeting": "Welcome back",
+    "readyMessage": "Ready to crush your fitness goals today?",
+    "workoutCount": "You have {{count}} workouts!",
+    "quickOverview": "Quick Overview",
+    "currentWeight": "Current Weight",
+    "currentBMI": "Current BMI",
+    "BMI": "Body Mass Index",
+    "currentBFP": "Current BFP",
+    "BFP": "Body Fat Percentage",
+    "quickActions": "Quick Actions",
+    "startWorkout": "Start Workout",
+    "viewProgress": "View Progress",
+    "exerciseLibrary": "Exercise Library",
+    "editProfile": "Edit Profile",
+    "recentWorkouts": "Recent Workouts",
+    "exercises": "exercises",
+    "noWorkouts": "No workouts logged yet.",
+    "weightProgress": "Weight Progress",
+    "weight": "Weight",
+    "date": "Date",
+    "noWeightProgress": "Weight progress chart would appear here once you have more than one entry."
+}

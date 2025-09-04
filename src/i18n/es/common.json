@@ -15,5 +15,16 @@
     "achievements": "Mis Metas",
     "exercises": "Biblioteca de Ejercicios",
     "profile": "Perfil",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "unknown": "Desconocido",
+    "underweight": "Bajo peso",
+    "normalWeight": "Peso normal",
+    "overweight": "Sobrepeso",
+    "obesity": "Obesidad",
+    "morbilityObesity": "Obesidad mórbida",
+    "essentialFat": "Grasa esencial",
+    "athletes": "Atletas",
+    "fitness": "Fitness",
+    "average": "Promedio",
+    "obese": "Obeso"
 }

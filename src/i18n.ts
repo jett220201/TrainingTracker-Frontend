@@ -8,24 +8,28 @@ import commonEs from "./i18n/es/common.json";
 import loginEs from "./i18n/es/login.json";
 import passwordEs from "./i18n/es/password.json";
 import registerEs from "./i18n/es/register.json";
+import homeEn from "./i18n/en/home.json";
+import homeEs from "./i18n/es/home.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    ns: ["common", "login", "password", "register"],
+    ns: ["common", "login", "password", "register", "home"],
     defaultNS: "common",
     resources: {
       en: {  
         common: commonEn,
         login: loginEn,
         password: passwordEn,
-        register: registerEn
+        register: registerEn,
+        home: homeEn
       },
       es: {
         common: commonEs,
         login: loginEs,
         password: passwordEs,
-        register: registerEs
+        register: registerEs,
+        home: homeEs
       },
     },
     lng: "es", // Default

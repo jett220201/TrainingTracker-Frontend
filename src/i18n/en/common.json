@@ -15,5 +15,16 @@
     "achievements": "My Goals",
     "exercises": "Exercises Library",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "unknown": "Unknown",
+    "underweight": "Underweight",
+    "normalWeight": "Normal Weight",
+    "overweight": "Overweight",
+    "obesity": "Obesity",
+    "morbilityObesity": "Morbidly Obesity",
+    "essentialFat": "Essential Fat",
+    "athletes": "Athletes",
+    "fitness": "Fitness",
+    "average": "Average",
+    "obese": "Obese"
 }

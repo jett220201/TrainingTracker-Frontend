@@ -1,0 +1,23 @@
+{
+    "greeting": "Bienvenido de nuevo",
+    "readyMessage": "Listo para alcanzar tus objetivos de fitness hoy?",
+    "workoutCount": "Tienes {{count}} rutinas!",
+    "quickOverview": "Resumen Rápido",
+    "currentWeight": "Peso Actual",
+    "currentBMI": "IMC Actual",
+    "BMI": "Indice de Masa Corporal",
+    "currentBFP": "PGC Actual",
+    "BFP": "Porcentaje de Grasa Corporal",
+    "quickActions": "Acciones Rápidas",
+    "startWorkout": "Iniciar Entrenamiento",
+    "viewProgress": "Ver Progreso",
+    "exerciseLibrary": "Biblioteca de Ejercicios",
+    "editProfile": "Editar Perfil",
+    "recentWorkouts": "Entrenamientos Recientes",
+    "exercises": "ejercicios",
+    "noWorkouts": "No hay entrenamientos registrados aún.",
+    "weightProgress": "Progreso En Tu Peso",
+    "weight": "Peso",
+    "date": "Fecha",
+    "noWeightProgress": "El gráfico de progreso de peso aparecerá aquí una vez que tengas más de una entrada."
+}
