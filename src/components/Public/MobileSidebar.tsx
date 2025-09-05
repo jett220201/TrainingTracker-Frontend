@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function MobileSidebar() {
     return (
-        <div className="block lg:hidden transition-all duration-300 bg-white min-w-screen h-16 p-2 border-t border-gray-200 absolute bottom-0 w-full">
+        <div className="block lg:hidden transition-all duration-300 bg-white min-w-screen h-16 p-2 border-t border-gray-200 absolute bottom-0 w-full z-2">
             <ul className="flex flex-row overflow-x-auto scrollbar-hide h-full gap-2">
                 <li className="hover:cursor-pointer w-1/4 flex justify-center items-center flex-shrink-0">
                     <Link to="/app/home">
