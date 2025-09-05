@@ -8,8 +8,10 @@ import { GET_HOME_DATA } from "../api/graphql/queries/home";
 import { Link } from "react-router-dom";
 import WorkoutMinimalCard from "../components/ui/WorkoutMinimalCard";
 import { getRangeBMI, getRangeBFP } from "../utils/fitnessHelper";
+import LineChartGraph from "../components/ui/LineChartGraph";
 import type { MuscleGroup } from "../types/general/MuscleGroupType";
 import 'react-tooltip/dist/react-tooltip.css'
+import Loading from "../components/Public/Loading";
 
 function Home() {
     const {t} = useTranslation([ "common", "home"]);
@@ -63,8 +65,15 @@ function Home() {
         }
     };
 
+    const formatDate = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() es 0-based
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
     
     if (error) {
@@ -75,7 +84,7 @@ function Home() {
     return (
         <>
             <TitleHeader title={t("dashboard", { ns: "common" })} />
-            <div className="bg-neutral-50 min-h-[calc(100vh-4rem)] h-100 p-8 overflow-y-auto">
+            <div className="bg-neutral-50 min-h-[calc(100vh-4rem)] h-100 px-2 py-6 lg:px-8 lg:py-8 overflow-y-auto">
                 <article className="mb-6 mx-4 p-8 bg-linear-to-r from-blue-600 to-orange-500 rounded-lg flex flex-col gap-2">
                     <p className="text-white font-bold text-2xl">{t("greeting", { ns: "home" })}, {data.userInfo?.userName}!</p>
                     <p className="text-white">{t("readyMessage", { ns: "home" })}</p>
@@ -161,8 +170,31 @@ function Home() {
                 </div>
                 <div className="flex flex-col gap-4 mx-4 p-4 mb-12 lg:mb-2 rounded-lg border border-gray-200">
                     <p className="text-2xl font-bold text-black">{t("weightProgress", { ns: "home" })}</p>
-                    {data.userInfo?.weightProgress?.length > 1 ? (
-                        <div></div>
+                    {data.userInfo?.weightProgressEntries?.length > 1 ? (
+                        <>
+                            <div className="hidden lg:block">
+                                <LineChartGraph
+                                    height={300}
+                                    width={700} 
+                                    labelX={t("date", { ns: "home" })}
+                                    labelY={`${t("weight", { ns: "home" })} (kg)`}
+                                    color="#1447e6"
+                                    labels={data.userInfo?.weightProgressEntries?.map((entry: { createdAt: string; }) => formatDate(new Date(entry.createdAt)))}
+                                    data={data.userInfo?.weightProgressEntries?.map((entry: { weight: number; }) => entry.weight)}
+                                />
+                            </div>
+                            <div className="block lg:hidden">
+                                <LineChartGraph
+                                    height={200}
+                                    width={300}
+                                    labelX={t("date", { ns: "home" })}
+                                    labelY={`${t("weight", { ns: "home" })} (kg)`}
+                                    color="#1447e6" 
+                                    labels={data.userInfo?.weightProgressEntries?.map((entry: { createdAt: string; }) => formatDate(new Date(entry.createdAt)))}
+                                    data={data.userInfo?.weightProgressEntries?.map((entry: { weight: number; }) => entry.weight)}
+                                />
+                            </div>
+                        </>
                     ) : (
                         <div className="flex flex-col lg:gap-4 items-center justify-center w-full h-48 bg-neutral-100 rounded-lg p-2 lg:p-4">
                             <LucideChartLine className="w-10 lg:w-16 h-10 lg:h-16 text-gray-400 m-4 lg:m-0"/>
