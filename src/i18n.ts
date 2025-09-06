@@ -10,11 +10,13 @@ import passwordEs from "./i18n/es/password.json";
 import registerEs from "./i18n/es/register.json";
 import homeEn from "./i18n/en/home.json";
 import homeEs from "./i18n/es/home.json";
+import settingsEn from "./i18n/en/settings.json";
+import settingsEs from "./i18n/es/settings.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    ns: ["common", "login", "password", "register", "home"],
+    ns: ["common", "login", "password", "register", "home", "settings"],
     defaultNS: "common",
     resources: {
       en: {  
@@ -22,14 +24,16 @@ i18n
         login: loginEn,
         password: passwordEn,
         register: registerEn,
-        home: homeEn
+        home: homeEn,
+        settings: settingsEn
       },
       es: {
         common: commonEs,
         login: loginEs,
         password: passwordEs,
         register: registerEs,
-        home: homeEs
+        home: homeEs,
+        settings: settingsEs
       },
     },
     lng: "es", // Default
