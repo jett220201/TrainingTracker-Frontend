@@ -27,5 +27,6 @@
     "fitness": "Fitness",
     "average": "Average",
     "obese": "Obese",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "logout": "Log Out"
 }
