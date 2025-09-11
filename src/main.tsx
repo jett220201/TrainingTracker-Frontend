@@ -18,12 +18,15 @@ import Progress from './pages/Progress.tsx';
 import Exercises from './pages/Exercises.tsx';
 import Profile from './pages/Profile.tsx';
 import Settings from './pages/Settings.tsx';
+import About from './pages/About.tsx'
+import NotFoundPage from './pages/NotFoundPage.tsx';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from './api/apolloClient.ts';
 
 const router = createBrowserRouter([
   {
     element: <PublicLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       { path: "/", element: <Navigate to="/login" replace /> },
       { path: "/login", element: <Login /> },
@@ -35,6 +38,7 @@ const router = createBrowserRouter([
   },
   {
     element: <PrivateLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       { path: "/app/home", element: <Home /> },
       { path: "/app/workouts", element: <Workouts /> },
@@ -45,6 +49,7 @@ const router = createBrowserRouter([
       { path: "/app/exercises", element: <Exercises /> },
       { path: "/app/profile", element: <Profile /> },
       { path: "/app/settings", element: <Settings /> },
+      { path: "/app/about", element: <About /> },
     ]
   }
 ]);
