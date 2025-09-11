@@ -2,17 +2,90 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import TitleHeader from "../components/Public/TitleHeader";
 import SettingCard from "../components/ui/SettingCard";
-import { LucideBadgeInfo, LucideHatGlasses, LucideInfo, LucideKeyRound, LucideLogOut, LucideUserRoundX } from "lucide-react";
+import { LucideBadgeInfo, LucideHatGlasses, LucideInfo, LucideKeyRound, LucideLock, LucideLogOut, LucideShield, LucideUserRoundX } from "lucide-react";
 import { useAuthStore } from "../store/AuthStore";
 import { useTheme } from "../hooks/useTheme";
 import type { Theme } from "../types/general/ThemeType";
+import { Fragment, useEffect, useState } from "react";
+import { Dialog, DialogPanel, DialogTitle, Transition, Description } from "@headlessui/react";
+import IconInput from "../components/ui/IconInput";
+import { IconButton } from "../components/ui/IconButton";
+import { userApi } from "../api/rest/userApi";
+import type { UserChangePasswordRequest } from "../types/dto/UserChangePasswordRequest";
+import type { Alert } from "../types/general/AlertType";
+import AlertBlock from "../components/ui/AlertBlock";
+import { useNavigate } from "react-router-dom";
 
 function Settings() {
-    const {t, i18n} = useTranslation(["settings", "common"]);
+    const {t, i18n} = useTranslation(["settings", "common", "password", "login"]);
+    const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
+    const [openModalDeleteAccount, setOpenModalDeleteAccount] = useState(false);
+    const [openModalContactSupport, setOpenModalContactSupport] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
+    const [message, setMessage] = useState<string | null>(null)
+    const [alertType, setAlertType] = useState<Alert>("Tip")
     const {theme, setTheme} = useTheme();
+    const navigate = useNavigate();
+    const appEmail = import.meta.env.VITE_SUPPORT_EMAIL;
+    const hasUppercase = /[A-Z]/; 
+    const hasLowercase = /[a-z]/; 
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[^A-Za-z0-9]/;
+    
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     }
+
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                oldPassword : oldPassword,
+                newPassword : newPassword
+            }
+            const response = await userApi.changePassword(payload as UserChangePasswordRequest);
+            setAlertType("Success");
+            setMessage(`${response.message} ${t("successPasswordChange", { ns: "settings" })}`);
+            setTimeout(() => {
+                useAuthStore.getState().logout();
+            }, 3000);
+        }
+        catch (error : any) {
+            setAlertType("Error")
+            setMessage(error.details != undefined ? error.details : error.message)
+        }
+    }
+
+    const checkPasswordRequirements = () => {
+        setMessage("");
+        let messages = []
+        if(newPassword.length < 10) {
+            messages.push(`• ${t("charactersValidation", { ns: "password" })}`);
+        }
+        if(!hasUppercase.test(newPassword)){
+            messages.push(`• ${t("upperCaseValidation", { ns: "password" })}`);
+        }
+        if(!hasLowercase.test(newPassword)){
+            messages.push(`• ${t("lowerCaseValidation", { ns: "password" })}`);
+        }
+        if(!hasNumber.test(newPassword)){
+            messages.push(`• ${t("numberValidation", { ns: "password" })}`);
+        }
+        if(!hasSpecialChar.test(newPassword)){
+            messages.push(`• ${t("specialCharValidation", { ns: "password" })}`);
+        }
+        if(messages.length > 0) {
+            messages.push(`${t("passwordRequirements", { ns: "password" })}`);
+        }
+        setAlertType("Tip");
+        setMessage(messages.reverse().join('\n'))
+        console.log(message)
+    }
+
+    useEffect(() => {
+        checkPasswordRequirements();
+    }, [newPassword])
 
     return (
         <>
@@ -60,7 +133,7 @@ function Settings() {
                             icon={LucideKeyRound}
                             title={t("changePassword", { ns: "settings" })}
                             body={t("changePasswordDescription", { ns: "settings" })}
-                            callback={() => { window.location.href = "/change-password"; }}
+                            callback={() => { setOpenModalChangePassword(true) }}
                         />
                     </section>
                 </article>
@@ -73,7 +146,7 @@ function Settings() {
                             icon={LucideBadgeInfo}
                             title={t("contactSupport", { ns: "settings" })}
                             body={t("contactSupportDescription", { ns: "settings" })}
-                            callback={() => { window.location.href = "/change-password"; }}
+                            callback={() => { setOpenModalContactSupport(true) }}
                         />
                         <SettingCard
                             iconBackground="bg-green-100"
@@ -81,7 +154,7 @@ function Settings() {
                             icon={LucideInfo}
                             title={t("about", { ns: "settings" })}
                             body={t("aboutDescription", { ns: "settings" })}
-                            callback={() => { window.location.href = "/change-password"; }}
+                            callback={() => { navigate("/app/about"); }}
                         />
                         <SettingCard
                             iconBackground="bg-indigo-100"
@@ -89,12 +162,12 @@ function Settings() {
                             icon={LucideHatGlasses}
                             title={t("privacyTerms", { ns: "settings" })}
                             body={t("privacyTermsDescription", { ns: "settings" })}
-                            callback={() => { window.location.href = "/change-password"; }}
+                            callback={() => { navigate("/privacy-terms"); }}
                         />
                     </section>
                 </article>
                 <article className="flex flex-col lg:gap-4 justify-center w-full h-auto bg-white dark:bg-gray-800 border border-gray-200 rounded-lg p-2 lg:p-4 mb-14 lg:mb-2">
-                    <p className="text-xl font-bold text-black text-white">{t("account", { ns: "settings" })}</p>
+                    <p className="text-xl font-bold text-black dark:text-gray-100">{t("account", { ns: "settings" })}</p>
                     <section className="flex flex-col gap-4 w-full border-t border-gray-300 pt-4 mt-2 lg:mt-0">
                         <SettingCard
                             iconBackground="bg-red-100"
@@ -102,7 +175,7 @@ function Settings() {
                             icon={LucideUserRoundX}
                             title={t("deleteAccount", { ns: "settings" })}
                             body={t("deleteAccountDescription", { ns: "settings" })}
-                            callback={() => { window.location.href = "/change-password"; }}
+                            callback={() => { setOpenModalDeleteAccount(true) }}
                         />
                         <SettingCard
                             iconBackground="bg-red-100"
@@ -115,6 +188,63 @@ function Settings() {
                     </section>
                 </article>
             </div>
+
+            <Transition show={openModalChangePassword} as={Fragment}>
+                <Dialog as="div" onClose={setOpenModalChangePassword} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{t("changePassword", { ns: "settings" })}</DialogTitle>
+                            <Description className="text-black dark:text-gray-100">{t("changePasswordMessage", { ns: "settings" })}</Description>
+                            <form className="flex flex-col gap-4 mt-2 mb-4" onSubmit={handleChangePassword}>
+                                <div className="flex flex-col gap-2">
+                                    <IconInput inputId="oldPassword" onChange={(e) => setOldPassword(e.target.value)}
+                                        icon={LucideLock} type="password" placeholder={t("passwordPlaceholder", { ns: "login" })} label={t("passwordLabel", { ns: "login" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200" />
+                                    <IconInput inputId="newPassword" onChange={(e) => setNewPassword(e.target.value)}
+                                        icon={LucideLock} type="password" placeholder={t("newPasswordPlaceholder", { ns: "password" })} label={t("newPasswordLabel", { ns: "password" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200" />
+                                </div>
+                                <IconButton label={t("changePassword", { ns: "settings" })} icon={LucideShield}
+                                    classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                            </form>
+                            {message && <AlertBlock icon={LucideShield}
+                            title={""}
+                            body={message}
+                            type={alertType} />}
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            <Transition show={openModalContactSupport} as={Fragment}>
+                <Dialog as="div" onClose={setOpenModalContactSupport} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{t("contactSupport", { ns: "settings" })}</DialogTitle>
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-600 dark:text-gray-100">{t("contactSupportMessage", { ns: "settings" })}</p>
+                            </div>
+                            <div className="flex justify-center mt-2">
+                                <a href={`mailto:${appEmail}`} className="!text-orange-500">{appEmail}</a>
+                            </div>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            <Transition show={openModalDeleteAccount} as={Fragment}>
+                <Dialog as="div" onClose={setOpenModalDeleteAccount}>
+                    <DialogPanel>
+                        <DialogTitle>{t("deleteAccount", { ns: "settings" })}</DialogTitle>
+                        <Description>{t("confirmDeleteAccount", { ns: "settings" })}</Description>
+                        <form>
+                            
+                        </form>
+                    </DialogPanel>
+                </Dialog>
+            </Transition>
         </>
     );
 }
