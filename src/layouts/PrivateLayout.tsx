@@ -2,10 +2,12 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/AuthStore";
 import Sidebar from "../components/Public/Sidebar";
 import MobileSidebar from "../components/Public/MobileSidebar";
+import { useTheme } from "../hooks/useTheme";
 
 export default function PrivateLayout() {
   const user = useAuthStore((state) => state.user);
-
+  useTheme();
+  
   if (!user) {
     return <Navigate to="/login" replace />;
   }
