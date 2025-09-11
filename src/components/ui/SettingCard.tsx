@@ -11,7 +11,7 @@ interface SettingCardProps {
 
 function SettingCard({ icon: Icon, iconBackground, iconColor, title, body, callback }: SettingCardProps) {
     return (
-        <article onClick={callback} className="flex flex-row rounded-xl p-2 items-center justify-between w-full hover:cursor-pointer hover:bg-gray-100">
+        <article onClick={callback} className="flex flex-row rounded-xl p-2 items-center justify-between w-full hover:cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-700 transition-colors">
             <section className="flex flex-row items-center gap-2">
                 <section>
                     <div className={`${iconBackground} p-2 m-2 flex justify-center items-center rounded-xl`}>
@@ -19,8 +19,8 @@ function SettingCard({ icon: Icon, iconBackground, iconColor, title, body, callb
                     </div>
                 </section>
                 <section>
-                    <p className="text-lg font-semibold text-black">{title}</p>
-                    <p className="text-sm text-gray-600">{body}</p>
+                    <p className="text-lg font-semibold text-black dark:text-gray-100">{title}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-200">{body}</p>
                 </section>
             </section>
             <section>
