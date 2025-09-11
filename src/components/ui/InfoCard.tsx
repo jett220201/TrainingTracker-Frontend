@@ -18,10 +18,10 @@ interface InfoCardProps {
 function InfoCard({title, titleColor, body, bodyColor, footer, footerColor, icon: Icon, 
     iconBgColor, iconColor, cardBgColor, tooltipId, tooltipContent}: InfoCardProps) {
     return (
-        <article data-tooltip-id={tooltipId ?? ""} data-tooltip-content={tooltipContent ?? ""} className={`bg-${cardBgColor ?? 'white'} text-white p-4 rounded-lg border border-gray-200 flex justify-between items-center`}>
-            <section>
-                <p className={`text-${titleColor ?? 'black'}`}>{title}</p>
-                <p className={`text-${bodyColor ?? 'black'} font-bold text-xl`}>{body}</p>
+        <article data-tooltip-id={tooltipId ?? ""} data-tooltip-content={tooltipContent ?? ""} className={`bg-${cardBgColor ?? 'white'} dark:bg-gray-800 text-white p-4 rounded-lg border border-gray-200 flex justify-between items-center`}>
+            <section className="flex flex-col item-start justify-start h-full">
+                <p className={`text-${titleColor ?? 'black'} dark:text-gray-100`}>{title}</p>
+                <p className={`text-${bodyColor ?? 'black'} dark:text-gray-200 font-bold text-xl`}>{body}</p>
                 {footer && <p className={`text-${footerColor ?? 'black'}`}>{footer}</p>}
             </section>
             <section>
