@@ -12,11 +12,13 @@ import homeEn from "./i18n/en/home.json";
 import homeEs from "./i18n/es/home.json";
 import settingsEn from "./i18n/en/settings.json";
 import settingsEs from "./i18n/es/settings.json";
+import aboutEn from "./i18n/en/about.json";
+import aboutEs from "./i18n/es/about.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    ns: ["common", "login", "password", "register", "home", "settings"],
+    ns: ["common", "login", "password", "register", "home", "settings", "about"],
     defaultNS: "common",
     resources: {
       en: {  
@@ -25,7 +27,8 @@ i18n
         password: passwordEn,
         register: registerEn,
         home: homeEn,
-        settings: settingsEn
+        settings: settingsEn,
+        about: aboutEn
       },
       es: {
         common: commonEs,
@@ -33,7 +36,8 @@ i18n
         password: passwordEs,
         register: registerEs,
         home: homeEs,
-        settings: settingsEs
+        settings: settingsEs,
+        about: aboutEs
       },
     },
     lng: "es", // Default
