@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import TitleHeader from "../components/Public/TitleHeader";
 import SettingCard from "../components/ui/SettingCard";
-import { LucideBadgeInfo, LucideHatGlasses, LucideInfo, LucideKeyRound, LucideLock, LucideLogOut, LucideShield, LucideUserRoundX } from "lucide-react";
+import { LucideBadgeInfo, LucideHatGlasses, LucideInfo, LucideKeyRound, LucideLock, LucideLogOut, LucideShield, LucideTrash, LucideUserRoundX } from "lucide-react";
 import { useAuthStore } from "../store/AuthStore";
 import { useTheme } from "../hooks/useTheme";
 import type { Theme } from "../types/general/ThemeType";
@@ -15,6 +15,7 @@ import type { UserChangePasswordRequest } from "../types/dto/UserChangePasswordR
 import type { Alert } from "../types/general/AlertType";
 import AlertBlock from "../components/ui/AlertBlock";
 import { useNavigate } from "react-router-dom";
+import type { UserDeleteAccountRequest } from "../types/dto/UserDeleteAccountRequest";
 
 function Settings() {
     const {t, i18n} = useTranslation(["settings", "common", "password", "login"]);
@@ -23,8 +24,12 @@ function Settings() {
     const [openModalContactSupport, setOpenModalContactSupport] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [email, setEmail] = useState("");
     const [message, setMessage] = useState<string | null>(null)
+    const [deleteMessage, setDeleteMessage] = useState<string | null>(null)
     const [alertType, setAlertType] = useState<Alert>("Tip")
+    const [alertDeleteType, setAlertDeleteType] = useState<Alert>("Success")
     const {theme, setTheme} = useTheme();
     const navigate = useNavigate();
     const appEmail = import.meta.env.VITE_SUPPORT_EMAIL;
@@ -57,6 +62,26 @@ function Settings() {
         }
     }
 
+    const handleDeleteAccount = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                email: email,
+                password: currentPassword
+            }
+            const response = await userApi.deleteAccount(payload as UserDeleteAccountRequest);
+            setAlertType("Success");
+            setMessage(response.message);
+            setTimeout(() => {
+                useAuthStore.getState().logout();
+            }, 5000);
+        }
+        catch (error: any) {
+            setAlertDeleteType("Error")
+            setDeleteMessage(error.details != undefined ? error.details : error.message)
+        }
+    }
+
     const checkPasswordRequirements = () => {
         setMessage("");
         let messages = []
@@ -80,7 +105,6 @@ function Settings() {
         }
         setAlertType("Tip");
         setMessage(messages.reverse().join('\n'))
-        console.log(message)
     }
 
     useEffect(() => {
@@ -235,14 +259,30 @@ function Settings() {
             </Transition>
 
             <Transition show={openModalDeleteAccount} as={Fragment}>
-                <Dialog as="div" onClose={setOpenModalDeleteAccount}>
-                    <DialogPanel>
-                        <DialogTitle>{t("deleteAccount", { ns: "settings" })}</DialogTitle>
-                        <Description>{t("confirmDeleteAccount", { ns: "settings" })}</Description>
-                        <form>
-                            
-                        </form>
-                    </DialogPanel>
+                <Dialog as="div" onClose={setOpenModalDeleteAccount} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{t("deleteAccount", { ns: "settings" })}</DialogTitle>
+                            <Description className="text-black dark:text-gray-100">{t("confirmDeleteAccount", { ns: "settings" })}</Description>
+                            <form className="flex flex-col gap-4 mt-2 mb-4" onSubmit={handleDeleteAccount}>
+                                <div className="flex flex-col gap-2">
+                                    <IconInput inputId="email" onChange={(e) => setEmail(e.target.value)}
+                                        icon={LucideLock} type="email" placeholder={t("emailPlaceholder", { ns: "common" })} label={t("emailLabel", { ns: "common" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200" />
+                                    <IconInput inputId="password" onChange={(e) => setCurrentPassword(e.target.value)}
+                                        icon={LucideLock} type="password" placeholder={t("passwordPlaceholder", { ns: "login" })} label={t("passwordLabel", { ns: "login" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200" />
+                                </div>
+                                <IconButton label={t("deleteAccount", { ns: "settings" })} icon={LucideTrash}
+                                    classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                            </form>
+                            {deleteMessage && <AlertBlock icon={LucideTrash}
+                            title={t("successDeleteAccount", { ns: "settings" })}
+                            body={deleteMessage}
+                            type={alertDeleteType} />}
+                        </DialogPanel>
+                    </div>
                 </Dialog>
             </Transition>
         </>

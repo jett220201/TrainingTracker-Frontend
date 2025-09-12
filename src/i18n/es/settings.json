@@ -23,5 +23,6 @@
     "account": "Cuenta",
     "deleteAccount": "Eliminar Cuenta",
     "deleteAccountDescription": "Elimina tu cuenta permanentemente",
-    "confirmDeleteAccount": "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer."
+    "confirmDeleteAccount": "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
+    "successDeleteAccount": "Ha sido un placer tenerte como usuario, te esperamos de regreso pronto 👋."
 }

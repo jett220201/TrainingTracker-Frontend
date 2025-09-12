@@ -23,5 +23,6 @@
     "account": "Account",
     "deleteAccount": "Delete Account",
     "deleteAccountDescription": "Permanently delete your account and data",
-    "confirmDeleteAccount": "Are you sure you want to delete your account? This action cannot be undone."
+    "confirmDeleteAccount": "Are you sure you want to delete your account? This action cannot be undone.",
+    "successDeleteAccount": "It has been a pleasure having you as a user. We hope to see you back soon 👋."
 }
