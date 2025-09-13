@@ -4,6 +4,7 @@
     "workoutCount": "Tienes {{count}} rutinas!",
     "quickOverview": "Resumen Rápido",
     "currentWeight": "Peso Actual",
+    "weightTooltip": "Peso en kilogramos",
     "currentBMI": "IMC Actual",
     "BMI": "Indice de Masa Corporal",
     "currentBFP": "PGC Actual",

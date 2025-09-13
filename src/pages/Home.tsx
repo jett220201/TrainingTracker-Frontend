@@ -69,7 +69,7 @@ function Home() {
 
     const formatDate = (date: Date): string => {
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() es 0-based
+        const month = String(date.getMonth() + 1).padStart(2, "0");
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     };
@@ -97,22 +97,24 @@ function Home() {
                 </article>
                 <p className="text-2xl font-bold p-4 text-black dark:text-gray-100">{t("quickOverview", { ns: "home" })}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 mb-6">
-                    <InfoCard title={t("currentWeight", { ns: "home" })} titleColor="gray-500"
+                    <InfoCard tooltipId="tooltipWeight" tooltipContent={t("weightTooltip", { ns: "home" })} 
+                        title={t("currentWeight", { ns: "home" })} titleColor="gray-500"
                         body={`${data.userInfo?.currentWeight} kg`} bodyColor="black" footer=""
-                        footerColor="green-500" icon={LucideWeight} iconBgColor="green-100" 
+                        footerColor="green-500" icon={LucideWeight} iconBgColor="bg-green-100" 
                         iconColor="green-500"/>
-                    
+                    <Tooltip id="tooltipWeight" place="top" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+
                     <InfoCard tooltipId="tooltipBMI" tooltipContent={t("BMI", { ns: "home" })}
                         title={t("currentBMI", { ns: "home" })} titleColor="gray-500"
                         body={data.userInfo?.currentBodyMassIndex} bodyColor="black" footer={getRangeBMI(data.userInfo?.currentBodyMassIndex, t)}
-                        footerColor="blue-500" icon={LucideChartPie} iconBgColor="blue-100" 
+                        footerColor="blue-500" icon={LucideChartPie} iconBgColor="bg-blue-100" 
                         iconColor="blue-500"/>
                     <Tooltip id="tooltipBMI" place="top" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
                     
                     <InfoCard tooltipId="tooltipBFP" tooltipContent={t("BFP", { ns: "home" })}
                         title={t("currentBFP", { ns: "home" })} titleColor="gray-500"
-                        body={data.userInfo?.currentBodyFatPercentage} bodyColor="black" footer={getRangeBFP(data.userInfo?.currentBodyFatPercentage, t)}
-                        footerColor="orange-500" icon={LucideFlame} iconBgColor="orange-100" 
+                        body={`${data.userInfo?.currentBodyFatPercentage} %`} bodyColor="black" footer={getRangeBFP(data.userInfo?.currentBodyFatPercentage, t)}
+                        footerColor="orange-500" icon={LucideFlame} iconBgColor="bg-orange-100" 
                         iconColor="orange-500"/>
                     <Tooltip id="tooltipBFP" place="top" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
                 </div>

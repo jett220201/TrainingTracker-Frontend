@@ -4,6 +4,7 @@
     "workoutCount": "You have {{count}} workouts!",
     "quickOverview": "Quick Overview",
     "currentWeight": "Current Weight",
+    "weightTooltip": "Weight in kilograms",
     "currentBMI": "Current BMI",
     "BMI": "Body Mass Index",
     "currentBFP": "Current BFP",
