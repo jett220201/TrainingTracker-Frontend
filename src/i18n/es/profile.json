@@ -1,0 +1,18 @@
+{
+    "memberSince": "Miembro desde",
+    "achievements": "Metas Activas",
+    "achievementsTooltip": "Metas registradas sin cumplir aún",
+    "workouts": "Rutinas",
+    "workoutsTooltip": "Rutinas registradas",
+    "personalInfo": "Información Personal",
+    "firstNameLabel": "Nombres",
+    "firstNamePlaceholder": "Ingresa tus nombres",
+    "lastNameLabel": "Apellidos",
+    "lastNamePlaceholder": "Ingresa tus apellidos",
+    "heightLabel": "Altura",
+    "heightPlaceholder": "Ingresa tu altura",
+    "edit": "Editar",
+    "editConfirmMessage": "¿Estás seguro de editar estos datos?",
+    "confirm": "Confirmo",
+    "cancel": "Cancelar"
+}

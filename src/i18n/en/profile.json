@@ -1,0 +1,18 @@
+{
+    "memberSince": "Member since",
+    "achievements": "Ative Goals",
+    "achievementsTooltip": "Goals recorded but not yet achieved",
+    "workouts": "Workouts",
+    "workoutsTooltip": "Registered workouts",
+    "personalInfo": "Personal Information ",
+    "firstNameLabel": "Names",
+    "firstNamePlaceholder": "Enter your names",
+    "lastNameLabel": "Last Names",
+    "lastNamePlaceholder": "Enter your last names",
+    "heightLabel": "Height",
+    "heightPlaceholder": "Enter your height",
+    "edit": "Edit",
+    "editConfirmMessage": "¿Are you sure about editing this information?",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+}
