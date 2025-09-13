@@ -73,7 +73,7 @@ function Sidebar() {
                         </Link>
                         <hr className="mb-2 bg-gray-500 w-60" />
                         <div className="flex flex-row items-center gap-4 p-2 w-50">
-                            <img src={imgSrc} alt="FitTracker Logo" className="w-12 h-12 mb-2 rounded-lg" />
+                            <img src={imgSrc} alt="Profile image" className="w-12 h-12 mb-2 rounded-lg" />
                             <p className="text-md font-semibold mb-2 text-black dark:text-white whitespace-pre-line">{user?.fullName}</p>
                         </div>
                     </footer>
@@ -87,31 +87,31 @@ function Sidebar() {
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipDashboard" data-tooltip-content={t("dashboard")}>
                             <LucideHouse className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipDashboard" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipDashboard" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipWorkouts" data-tooltip-content={t("workouts")}>
                             <LucideDumbbell className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipWorkouts" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipWorkouts" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipProgress" data-tooltip-content={t("progress")}>
                             <LucideChartLine className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipProgress" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipProgress" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipAchievements" data-tooltip-content={t("achievements")}>
                             <LucideGoal className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipAchievements" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipAchievements" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipExercises" data-tooltip-content={t("exercises")}>
                             <LucideBookOpenText className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipExercises" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipExercises" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipProfile" data-tooltip-content={t("profile")}>
                             <LucideUser className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipProfile" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipProfile" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                         <li className="mb-2 hover:cursor-pointer" data-tooltip-id="tooltipSettings" data-tooltip-content={t("settings")}>
                             <LucideSettings className="w-6 h-6 text-gray-800 dark:text-gray-200"/>
                         </li>
-                        <Tooltip id="tooltipSettings" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
+                        <Tooltip id="tooltipSettings" place="right" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500, zIndex: 2 }} />
                     </ul>
                 </div>)
             }
