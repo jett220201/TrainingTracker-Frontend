@@ -10,9 +10,13 @@
     "lastNameLabel": "Last Names",
     "lastNamePlaceholder": "Enter your last names",
     "heightLabel": "Height",
-    "heightPlaceholder": "Enter your height",
+    "heightPlaceholder": "Enter your height cm",
     "edit": "Edit",
     "editConfirmMessage": "¿Are you sure about editing this information?",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "checkNames": "Names can't be empty",
+    "checkLastNames": "Last names can't be empty",
+    "checkGender": "You must choose a gender between male and female",
+    "checkHeight": "Height must be a value between 0 cm and 300 cm"
 }

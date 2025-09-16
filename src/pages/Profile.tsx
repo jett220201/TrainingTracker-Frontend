@@ -7,17 +7,53 @@ import { useQuery } from "@apollo/client";
 import { GET_PROFILE_DATA } from "../api/graphql/queries/profile";
 import { LucideBicepsFlexed, LucideTrophy, LucideWeight, LucideChartPie, 
     LucideFlame, LucideShieldUser, LucideRuler, LucidePencil,
-    LucideCheckCheck, LucideBan } from "lucide-react"
+    LucideCheckCheck, LucideBan, 
+    LucideUserRoundPen} from "lucide-react"
 import { Tooltip } from "react-tooltip";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
+import { userApi } from "../api/rest/userApi";
 import type { Gender } from "../types/general/GenderType";
 import { Dialog, DialogPanel, DialogTitle, Transition, Description } from "@headlessui/react";
 import type { Alert } from "../types/general/AlertType";
 import { IconButton } from "../components/ui/IconButton";
+import type { UserEditRequest } from "../types/dto/UserEditRequest";
+import AlertBlock from "../components/ui/AlertBlock";
+import { useAuthStore } from "../store/AuthStore";
+import { genderMap } from "../utils/genderMapper";
+
+const processGender = (gender: string) => {
+    if(gender === "" || gender === undefined) return "";
+    return gender.at(0)?.toUpperCase() + gender.slice(1).toLowerCase();
+};
+
+const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+};
 
 function Profile() {
-    const {data, loading, error} = useQuery(GET_PROFILE_DATA);
+    const {data, loading, error, refetch} = useQuery(GET_PROFILE_DATA);
+    const {t} = useTranslation(["profile", "common", "home", "register"]);
+    const imgSrc = data?.userInfoById?.gender?.toLowerCase() == "male" ? "/src/assets/male-profile.png" : "/src/assets/female-profile.png";
+    const [firstNames, setFirstNames] = useState<string>("");
+    const [lastNames, setLastNames] = useState<string>("");
+    const [height, setHeight] = useState<number>(0);
+    const [gender, setGender] = useState<Gender>("None");
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
+    const [alertType, setAlertType] = useState<Alert>("Error");
     let errorMsg = "";
+
+    useEffect(() => {
+        if(data?.userInfoById) {
+            setFirstNames(data?.userInfoById?.firstName);
+            setLastNames(data?.userInfoById?.lastName);
+            setHeight(data?.userInfoById?.height);
+            setGender(processGender(data?.userInfoById?.gender) as Gender);
+        }
+    }, [data]);
 
     if (loading) {
         return <Loading />;
@@ -28,37 +64,67 @@ function Profile() {
         console.error(errorMsg);
     }
 
-    const processGender = (gender: string) => {
-        return gender.at(0)?.toUpperCase() + gender.slice(1).toLowerCase();
-    };
-
-    const formatDate = (date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    };
-
-    const {t} = useTranslation(["profile", "common", "home", "register"]);  
-    const imgSrc = data.userInfoById?.gender?.toLowerCase() == "male"? "/src/assets/male-profile.png" : "female-profile.png";
-    const [firstNames, setFirstNames] = useState<string>(data.userInfoById?.firstName ?? "");
-    const [lastNames, setLastNames] = useState<string>(data.userInfoById?.lastName ?? "");
-    const [height, setHeight] = useState<number>(data.userInfoById?.height ?? 0);
-    const [gender, setGender] = useState<Gender>(processGender(data.userInfoById?.gender) as Gender ?? "None");
-    const [openEditModal, setOpenEditModal] = useState(false);
-
     const handleEdit = (e: React.FormEvent) =>
     {
         e.preventDefault();
         setOpenEditModal(true);
     }
 
+    const checkInputs = () => {
+        if(firstNames === "") {
+            setAlertType("Error");
+            setMessage(t("checkNames", { ns: "profile" }));
+            return false;
+        }
+        if(lastNames === "") {
+            setAlertType("Error");
+            setMessage(t("checkLastNames", { ns: "profile" }));
+            return false;
+        }
+        if(height <= 0 || height > 300) {
+            setAlertType("Error");
+            setMessage(t("checkHeight", { ns: "profile" }));
+            return false;
+        }
+        if (gender === "None") {
+            setAlertType("Error");
+            setMessage(t("checkGender", { ns: "profile" }));
+            return false;
+        }
+        return true;
+    }
+
     const handleConfirmEdit = async () => {
         try {
+            setOpenEditModal(false);
+            const valid = checkInputs();
+            if(!valid) return;
 
+            const payload = {
+                name: firstNames,
+                lastName: lastNames,
+                gender: genderMap[gender],
+                height: height
+            }
+
+            const response = await userApi.edit(payload as UserEditRequest);
+            setMessage(response.message);
+            setAlertType("Success");
+
+            // refresh store
+            await useAuthStore.getState().fetchUser();
+
+            // refresh info from graphql
+            await refetch();
+
+            // hide message
+            setTimeout(()=>{
+                setMessage("");
+            }, 4000);
         }
         catch (error: any) {
-            
+            setMessage(error.details != undefined ? error.details : error.message)
+            setAlertType("Error");
         }
     }
 
@@ -176,6 +242,12 @@ function Profile() {
                     </Dialog>
                 </Transition>
 
+                {message && <div className="flex flex-col justify-center items-center w-full">
+                    <AlertBlock icon={LucideUserRoundPen}
+                    title={t("edit", { ns: "profile" })}
+                    body={message}
+                    type={alertType} />
+                </div>}
             </div>
         </>
     );

@@ -10,9 +10,13 @@
     "lastNameLabel": "Apellidos",
     "lastNamePlaceholder": "Ingresa tus apellidos",
     "heightLabel": "Altura",
-    "heightPlaceholder": "Ingresa tu altura",
+    "heightPlaceholder": "Ingresa tu altura en cm",
     "edit": "Editar",
     "editConfirmMessage": "¿Estás seguro de editar estos datos?",
     "confirm": "Confirmo",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "checkNames": "Los nombres no pueden estar vacíos",
+    "checkLastNames": "Los apellidos no pueden estar vacíos",
+    "checkGender": "Debes escoger un genero entre masculino y femenino",
+    "checkHeight": "La altura debe ser un valor entre 0 cm y 300 cm"
 }
