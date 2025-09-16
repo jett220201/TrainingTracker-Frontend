@@ -20,6 +20,7 @@ import { userApi } from "../api/rest/userApi";
 import type { UserRegistrationRequest } from "../types/dto/UserRegistrationRequest";
 import type { Alert } from "../types/general/AlertType";
 import type { Gender } from "../types/general/GenderType";
+import { genderMap } from "../utils/genderMapper";
 
 function FormatDate(date: Date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -47,12 +48,6 @@ function Register() {
     const hasLowercase = /[a-z]/;
     const hasNumber = /\d/;
     const hasSpecialChar = /[^A-Za-z0-9]/;
-
-    const genderMap: Record<Gender, number> = {
-        None: 0,
-        Male: 1,
-        Female: 2
-    };
 
     const handleDateSelect = (date?: Date) => {
         setDateBirth(date);
