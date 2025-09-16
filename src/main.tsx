@@ -22,11 +22,12 @@ import About from './pages/About.tsx'
 import NotFoundPage from './pages/NotFoundPage.tsx';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from './api/apolloClient.ts';
+import ErrorPage from './pages/ErrorPage.tsx';
 
 const router = createBrowserRouter([
   {
     element: <PublicLayout />,
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Navigate to="/login" replace /> },
       { path: "/login", element: <Login /> },
@@ -34,11 +35,12 @@ const router = createBrowserRouter([
       { path: "/forgot-password", element: <ForgotPassword /> },
       { path: "/recovery-password", element: <RecoveryPassword /> },
       { path: "/privacy-terms", element: <PrivacyTerms /> },
+      { path: "*", element: <NotFoundPage /> }
     ]
   },
   {
     element: <PrivateLayout />,
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/app/home", element: <Home /> },
       { path: "/app/workouts", element: <Workouts /> },
@@ -50,6 +52,7 @@ const router = createBrowserRouter([
       { path: "/app/profile", element: <Profile /> },
       { path: "/app/settings", element: <Settings /> },
       { path: "/app/about", element: <About /> },
+      { path: "*", element: <NotFoundPage /> }
     ]
   }
 ]);
