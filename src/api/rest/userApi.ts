@@ -2,6 +2,7 @@ import type { ErrorResponse } from "../../types/dto/ErrorResponse";
 import type { UserChangePasswordRecoveryRequest } from "../../types/dto/UserChangePasswordRecoveryRequest";
 import type { UserChangePasswordRequest } from "../../types/dto/UserChangePasswordRequest";
 import type { UserDeleteAccountRequest } from "../../types/dto/UserDeleteAccountRequest";
+import type { UserEditRequest } from "../../types/dto/UserEditRequest";
 import type { UserRecoveryPasswordRequest } from "../../types/dto/UserRecoveryPasswordRequest";
 import type { UserRegistrationRequest } from "../../types/dto/UserRegistrationRequest";
 import axiosClient from "../axiosClient";
@@ -10,6 +11,16 @@ export const userApi = {
     register: async (request : UserRegistrationRequest) => {
         try {
             const response = await axiosClient.post("/user/register", request);
+            return response.data;
+        }
+        catch (error : any) {
+            const errorData = error.response?.data as ErrorResponse;
+            throw errorData;
+        }
+    },
+    edit: async (request : UserEditRequest) => {
+        try {
+            const response = await axiosClient.post("/user/edit", request);
             return response.data;
         }
         catch (error : any) {
