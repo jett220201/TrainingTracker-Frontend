@@ -1,0 +1,18 @@
+{
+    "title": "Exercise Library",
+    "exercises": "exercises",
+    "search": "Search exercises by name or description…",
+    "muscleGroup": "Muscle group",
+    "viewDetails": "View Details",
+    "all": "All",
+    "chest": "Chest",
+    "back": "Back",
+    "legs": "Legs",
+    "arms": "Arms",
+    "shoulders": "Shoulders",
+    "core": "Core",
+    "cardio": "Cardio",
+    "noData": "There are no exercises that meet the filter criteria",
+    "next": "Next",
+    "prev": "Previous"
+}

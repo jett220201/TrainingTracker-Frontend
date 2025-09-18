@@ -1,0 +1,18 @@
+{
+    "title": "Librería de Ejercicios",
+    "exercises": "ejercicios",
+    "search": "Buscar ejercicios por nombre o descripción…",
+    "muscleGroup": "Grupo de musculo",
+    "viewDetails": "Ver Detalle",
+    "all": "Todos",
+    "chest": "Pecho",
+    "back": "Espalda",
+    "legs": "Piernas",
+    "arms": "Brazos",
+    "shoulders": "Hombros",
+    "core": "Torso",
+    "cardio": "Cardio",
+    "noData": "No hay ejercicios que cumplan el filtro",
+    "next": "Siguiente",
+    "prev": "Anterior"
+}
