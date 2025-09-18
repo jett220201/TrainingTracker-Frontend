@@ -132,7 +132,7 @@ function Profile() {
         <>
             <TitleHeader title={t("profile", { ns: "common" })} />
             <div className="bg-neutral-50 dark:bg-slate-950 min-h-[calc(100vh-4rem)] h-100 px-2 py-6 lg:px-8 lg:py-8 overflow-y-auto">
-                <article className="mb-6 mx-4 rounded-lg flex flex-col h-60 border border-gray-200 relative">
+                <article className="mb-6 mx-4 rounded-lg flex flex-col h-70 border border-gray-200 relative">
                     <section className="h-2/5 bg-linear-to-r from-blue-600 dark:from-slate-800 to-orange-500 dark:to-stone-700 rounded-t-lg"></section>
                     <section className="h-3/5 bg-white dark:bg-linear-to-r dark:from-slate-800 dark:to-stone-700 rounded-b-lg">
                         <div className="absolute top-15 left-5 flex flex-col items-center justify-center bg-gray-200 dark:bg-slate-700 rounded-full">
@@ -178,13 +178,13 @@ function Profile() {
                         iconColor="orange-500" />
                     <Tooltip id="tooltipBFP" place="top" style={{ backgroundColor: "#1447e6", color: "white", fontWeight: 500 }} />
                 </div>
-                <article className="flex flex-col relative mx-4 lg:gap-4 justify-center h-auto bg-white dark:bg-gray-800 border border-gray-200 rounded-lg p-2 lg:p-4 mb-6">
+                <article className="flex flex-col relative mx-4 lg:gap-4 justify-center h-auto bg-white dark:bg-gray-800 border border-gray-200 rounded-lg p-2 lg:p-4 mb-12 lg:mb-6">
                     <p className="text-2xl font-bold p-4 text-black dark:text-gray-100">{t("personalInfo", { ns: "profile" })}</p>
                     <form onSubmit={handleEdit} className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full border-t border-gray-300 pt-4 mt-2 lg:mt-0">
                         <IconButton 
                             icon={LucidePencil}
                             label={t("edit", { ns: "profile" })}
-                            classname="absolute top-5 right-5 flex items-center justify-center text-white w-fit gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800"
+                            classname="lg:absolute top-5 right-5 flex items-center justify-center text-white w-full lg:w-fit gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800"
                         />
                         <div>
                             <IconInput inputId="firstNames" onChange={(e) => setFirstNames(e.target.value)}
