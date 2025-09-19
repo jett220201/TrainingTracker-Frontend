@@ -37,7 +37,7 @@ function ExerciseCard({name, description, muscleGroup, muscleGroupName, label, o
                 </section>
                 <section className="flex flex-col p-5 h-1/2 bg-white dark:bg-gray-800 rounded-xl rounded-t-none">
                     <div className="flex justify-between mb-5">
-                        <p className="text-black dark:text-gray-200 font-bold">{name}</p>
+                        <p className="text-black dark:text-gray-200 line-clamp-1 font-bold">{name}</p>
                         <div className={`text-gray-500 dark:text-gray-800 rounded-2xl ${backgroundColor} px-3`}>{muscleGroupName}</div>
                     </div>
                     <p className="text-gray-500 mb-2 line-clamp-2 min-h-12">{description}</p>
