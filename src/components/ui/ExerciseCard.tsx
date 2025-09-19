@@ -9,9 +9,10 @@ interface ExerciseCardProps {
     muscleGroup: number;
     muscleGroupName: string;
     label: string;
+    onClick?: () => void;
 }
 
-function ExerciseCard({name, description, muscleGroup, muscleGroupName, label} : ExerciseCardProps) {
+function ExerciseCard({name, description, muscleGroup, muscleGroupName, label, onClick} : ExerciseCardProps) {
     const getIconByMuscleGroup = (group : number) : [LucideIcon, string, string] => {
         switch(group) {
             case 0: return [LucideCircleAlert, 'bg-gray-100', 'text-gray-500'];
@@ -30,7 +31,7 @@ function ExerciseCard({name, description, muscleGroup, muscleGroupName, label} :
 
     return (
         <>
-            <article className="flex flex-col rounded-xl border border-gray-200 h-100">
+            <article className="flex flex-col rounded-xl border border-gray-200 h-100" onClick={onClick}>
                 <section className={`h-1/2 ${backgroundColor} flex justify-center items-center rounded-xl rounded-b-none`}>
                     <Icon className={`${iconColor} w-15 h-15`}/>
                 </section>

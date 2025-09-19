@@ -4,8 +4,9 @@ import IconInput from "../components/ui/IconInput";
 import { LucideArrowBigLeftDash, LucideArrowBigRightDash, LucideSearch, LucideSlidersHorizontal } from "lucide-react";
 import { GET_PAGINATE_EXERCISES } from "../api/graphql/queries/exercises";
 import { useQuery } from "@apollo/client";
+import { Dialog, DialogPanel, DialogTitle, Transition, Description } from "@headlessui/react";
 import Loading from "../components/Public/Loading";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { IconButton } from "../components/ui/IconButton";
 import ExerciseCard from "../components/ui/ExerciseCard";
 
@@ -25,6 +26,10 @@ function Exercises() {
     const [muscle, setMuscle] = useState<number | null>(null);
     const [after, setAfter] = useState<string | null>(null);
     const [before, setBefore] = useState<string | null>(null);
+    const [openModalDetails, setOpenModalDetails] = useState<boolean>(false);
+    const [currentFocusTitle, setCurrentFocusTitle] = useState<string>('');
+    const [currentFocusDescription, setCurrentFocusDescription] = useState<string>('');
+    const [currentFocusMuscleName, setCurrentFocusMuscleName] = useState<string>('');
     let errorMsg = "";
 
     useEffect(() => {
@@ -57,9 +62,20 @@ function Exercises() {
         console.error(errorMsg);
     }
 
+    const handleViewDetails = (title: string, descripcion: string, muscle: string) => {
+        setCurrentFocusTitle(title);
+        setCurrentFocusDescription(descripcion);
+        setCurrentFocusMuscleName(muscle);
+        setOpenModalDetails(true);
+    }
+
     const handleMuscleChange = (value: number | null) => {
         setMuscle(value);
     }
+
+    const getInternationalName = (value: string) : string => {
+        return t(`${value}`, { ns: "exercises" });
+    };
 
     const baseClasses = "flex !rounded-3xl px-4 py-1 items-center justify-center cursor-pointer transition-colors duration-200";
 
@@ -138,8 +154,9 @@ function Exercises() {
                             name={item?.node?.name} 
                             description={item?.node?.description} 
                             muscleGroup={item?.node?.muscleGroup} 
-                            muscleGroupName={item?.node?.muscleGroupName} 
-                            label={t("viewDetails", { ns: "exercises" })} />
+                            muscleGroupName={getInternationalName(item?.node?.muscleGroupName?.toLowerCase())} 
+                            label={t("viewDetails", { ns: "exercises" })} 
+                            onClick={() => { handleViewDetails(item?.node?.name, item?.node?.description, item?.node?.muscleGroupName) }}/>
                     )) : <div className="flex flex-row items-center justify-center gap-5 w-full">
                             <LucideSlidersHorizontal className="w-8 h-8 text-blue-700"/>
                             <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">{t("noData", { ns: "exercises" })}</p>
@@ -165,6 +182,18 @@ function Exercises() {
                             />
                     </div>
                 </section>
+
+                <Transition show={openModalDetails} as={Fragment}>
+                    <Dialog as="div" onClose={setOpenModalDetails} className="relative z-2">
+                        <div className="fixed inset-0 bg-black/30" />
+                        <div className="fixed inset-0 flex items-center justify-center">
+                            <DialogPanel className="w-80 max-w-md lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                                <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{`${currentFocusTitle} ~ ${currentFocusMuscleName}`}</DialogTitle>
+                                <Description className="text-black dark:text-gray-100">{currentFocusDescription}</Description>
+                            </DialogPanel>
+                        </div>
+                    </Dialog>
+                </Transition>
             </div>
         </>
     );
