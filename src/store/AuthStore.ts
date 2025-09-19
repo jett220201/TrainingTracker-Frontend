@@ -2,10 +2,12 @@ import { create } from "zustand";
 import { authApi } from "../api/rest/authApi";
 import type { Gender } from "../types/general/GenderType";
 import { persist } from "zustand/middleware";
+import i18n from "../i18n";
 
 interface User {
   fullName : string;
   gender : Gender;
+  language : string;
 }
 
 interface AuthState {
@@ -31,9 +33,11 @@ export const useAuthStore = create<AuthState>()(
       if (response.status === 200) {
         const userData: User = {
           fullName: response.data.fullName,
-          gender: genderMap[response.data.gender] || "None"
+          gender: genderMap[response.data.gender] || "None",
+          language: response.data.language
         };
         set({ user: userData as User });
+        i18n.changeLanguage(userData.language);
       } else {
         set({ user: null });
       }
