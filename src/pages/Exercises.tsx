@@ -70,6 +70,10 @@ function Exercises() {
     }
 
     const handleMuscleChange = (value: number | null) => {
+        if(data?.exercises?.pageInfo?.hasPreviousPage) {
+            setAfter(null);
+            setBefore(null);
+        }
         setMuscle(value);
     }
 
@@ -156,7 +160,7 @@ function Exercises() {
                             muscleGroup={item?.node?.muscleGroup} 
                             muscleGroupName={getInternationalName(item?.node?.muscleGroupName?.toLowerCase())} 
                             label={t("viewDetails", { ns: "exercises" })} 
-                            onClick={() => { handleViewDetails(item?.node?.name, item?.node?.description, item?.node?.muscleGroupName) }}/>
+                            onClick={() => { handleViewDetails(item?.node?.name, item?.node?.description, getInternationalName(item?.node?.muscleGroupName?.toLowerCase())) }}/>
                     )) : <div className="flex flex-row items-center justify-center gap-5 w-full">
                             <LucideSlidersHorizontal className="w-8 h-8 text-blue-700"/>
                             <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">{t("noData", { ns: "exercises" })}</p>
