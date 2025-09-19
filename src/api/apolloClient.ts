@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { setContext } from "@apollo/client/link/context";
 import { fromPromise } from "@apollo/client/link/utils";
 import axiosClient from "./axiosClient";
+import i18n from "../i18n";
 
 let isRefreshing = false;
 let pendingRequests: Array<() => void> = [];
@@ -58,8 +60,18 @@ const httpLink = new HttpLink({
   credentials: "include",
 });
 
+const languageLink = setContext((_, { headers }) => {
+  const lang = i18n.language || "en";
+  return {
+    headers: {
+      ...headers,
+      "Accept-Language": lang,
+    },
+  };
+});
+
 const apolloClient = new ApolloClient({
-    link: from([errorLink, httpLink]),
+    link: from([errorLink, languageLink, httpLink]),
     cache: new InMemoryCache(),
 });
 
