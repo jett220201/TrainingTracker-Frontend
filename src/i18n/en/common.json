@@ -29,5 +29,7 @@
     "average": "Average",
     "obese": "Obese",
     "loading": "Loading...",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "404Message": "We are sorry, we can't find this page",
+    "errorMessage": "Looks like something went wrong, please try again later."
 }

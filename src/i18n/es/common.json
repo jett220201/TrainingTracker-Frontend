@@ -29,5 +29,7 @@
     "average": "Promedio",
     "obese": "Obeso",
     "loading": "Cargando...",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "404Message": "Lo sentimos, no hemos podido encontrar este sitio",
+    "errorMessage": "Parece que algo ha salido mal, por favor intenta de nuevo más tarde"
 }
