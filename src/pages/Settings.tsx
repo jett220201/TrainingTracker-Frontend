@@ -16,6 +16,8 @@ import type { Alert } from "../types/general/AlertType";
 import AlertBlock from "../components/ui/AlertBlock";
 import { useNavigate } from "react-router-dom";
 import type { UserDeleteAccountRequest } from "../types/dto/UserDeleteAccountRequest";
+import { authApi } from "../api/rest/authApi";
+import type { UserChangeLanguageRequest } from "../types/dto/UserChangeLanguageRequest";
 
 function Settings() {
     const {t, i18n} = useTranslation(["settings", "common", "password", "login"]);
@@ -38,8 +40,18 @@ function Settings() {
     const hasNumber = /\d/;
     const hasSpecialChar = /[^A-Za-z0-9]/;
     
-    const changeLanguage = (lng: string) => {
+    const changeLanguage = async (lng: string) => {
         i18n.changeLanguage(lng);
+        try {
+            const payload = {
+                language: lng
+            }
+            await authApi.changeLanguage(payload as UserChangeLanguageRequest);
+        }
+        catch (error : any) {
+            setAlertType("Error")
+            setMessage(error.details != undefined ? error.details : error.message)
+        }
     }
 
     const handleChangePassword = async (e: React.FormEvent) => {
