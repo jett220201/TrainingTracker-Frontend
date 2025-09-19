@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
 import type { ErrorResponse } from "../types/dto/ErrorResponse";
+import i18n from "../i18n";
 
 const retriedRequests = new Set<string>();
 const axiosClient = axios.create({
@@ -7,6 +8,18 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
+// Intercept request
+axiosClient.interceptors.request.use(
+  (config) => {
+    config.headers['Accept-Language'] = i18n.language || 'en';
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
+// Intercept response
 axiosClient.interceptors.response.use(
   (response : AxiosResponse) => response,
   async (error: AxiosError<ErrorResponse>) => {
