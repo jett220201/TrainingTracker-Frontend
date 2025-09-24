@@ -10,6 +10,7 @@ import { userApi } from "../api/rest/userApi";
 import type { UserRecoveryPasswordRequest } from "../types/dto/UserRecoveryPasswordRequest";
 import { useTranslation } from "react-i18next";
 import type { Alert } from "../types/general/AlertType";
+import VideoBackground from "../components/Public/VideoBackground";
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
@@ -34,39 +35,44 @@ function ForgotPassword() {
     }
 
     return (
-        <div className="flex w-full h-full flex-col items-center justify-center bg-gray-100">
-            <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
-                <Header subtitle={t("loginHeaderMessage", { ns: "common" })} />
-                <div className="flex flex-row w-full gap-4">
-                    <LucideArrowLeft className="text-gray-500"></LucideArrowLeft>
-                    <Link to="/login" className="!text-gray-500">{t("backLogin", { ns: "common" })}</Link>
-                </div>
-                <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
-                    <div className="flex flex-col items-center gap-2">
-                        <FeatureIcon label="" icon={LucideKeyRound} 
-                            classname="bg-orange-100 rounded-full w-12 h-12 flex justify-center items-center text-orange-500" />
-                        <p className="text-black text-left font-bold text-2xl">{t("forgotPasswordTitle")}</p>
-                        <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">{t("forgotPasswordSubtitle")}</p>
-                    </div>
-                    <form className="flex flex-col w-80 gap-6" onSubmit={handleSubmit}>
-                        <div className="flex flex-col">
-                            <IconInput inputId="email" onChange={(e) => { setEmail(e.target.value) }} 
-                                    icon={LucideMail} type="email" placeholder={t("emailPlaceholder", { ns: "common" })} label={t("emailLabel", { ns: "common" })}
-                                    classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
-                            <p className="text-gray-500 text-left text-xs">{t("sendInstructions")}</p>
+        <div className="relative w-full h-screen overflow-hidden">
+            <VideoBackground />
+            <div className="relative z-20 flex w-full h-full flex-col items-center justify-center overflow-y-auto">
+                <div className="flex w-full h-full flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
+                        <Header subtitle={t("loginHeaderMessage", { ns: "common" })} subtitleColor="text-gray-200" titleColor="text-gray-100" />
+                        <div className="flex flex-row w-full gap-1 ml-6 lg:ml-0 lg:gap-4">
+                            <LucideArrowLeft className="text-gray-200"></LucideArrowLeft>
+                            <Link to="/login" className="!text-gray-200">{t("backLogin", { ns: "common" })}</Link>
                         </div>
-                        <IconButton label={t("sendLink")} icon={LucideSend} 
-                                    classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800"/>
-                    </form>
-                </section>
-                <section className="flex items-center gap-2">
-                    <p className="text-gray-500">{t("rememberYourPassword")}</p>
-                    <Link to="/login" className="text-sm !text-blue-600">{t("signIn", { ns: "common" })}</Link>
-                </section>
-                <AlertBlock icon={LucideShield} 
-                            title={message != null ? "" : t("secureNoticeTitle")} 
+                        <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
+                            <div className="flex flex-col items-center gap-2">
+                                <FeatureIcon label="" icon={LucideKeyRound} labelColor="text-gray-200"
+                                    classname="bg-orange-100 rounded-full w-12 h-12 flex justify-center items-center text-orange-500" />
+                                <p className="text-black text-left font-bold text-2xl">{t("forgotPasswordTitle")}</p>
+                                <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">{t("forgotPasswordSubtitle")}</p>
+                            </div>
+                            <form className="flex flex-col lg:w-80 gap-6" onSubmit={handleSubmit}>
+                                <div className="flex flex-col">
+                                    <IconInput inputId="email" onChange={(e) => { setEmail(e.target.value) }}
+                                        icon={LucideMail} type="email" placeholder={t("emailPlaceholder", { ns: "common" })} label={t("emailLabel", { ns: "common" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                    <p className="text-gray-500 text-left text-xs">{t("sendInstructions")}</p>
+                                </div>
+                                <IconButton label={t("sendLink")} icon={LucideSend}
+                                    classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                            </form>
+                        </section>
+                        <section className="flex items-center gap-2">
+                            <p className="text-gray-200">{t("rememberYourPassword")}</p>
+                            <Link to="/login" className="text-sm !text-blue-600">{t("signIn", { ns: "common" })}</Link>
+                        </section>
+                        <AlertBlock icon={LucideShield}
+                            title={message != null ? "" : t("secureNoticeTitle")}
                             body={message != null ? message : t("secureNoticeSubtitle")}
-                            type={alertType}/>
+                            type={alertType} />
+                    </div>
+                </div>
             </div>
         </div>
     );

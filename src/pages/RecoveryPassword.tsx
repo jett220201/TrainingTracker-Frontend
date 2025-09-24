@@ -10,6 +10,7 @@ import type { Alert } from "../types/general/AlertType";
 import { userApi } from "../api/rest/userApi";
 import type { UserChangePasswordRecoveryRequest } from "../types/dto/UserChangePasswordRecoveryRequest";
 import { useTranslation } from "react-i18next";
+import VideoBackground from "../components/Public/VideoBackground";
 
 function RecoveryPassword() {
     const [searchParams] = useSearchParams();
@@ -83,40 +84,45 @@ function RecoveryPassword() {
     }, [confirmPassword])
 
     return (
-        <div className="flex w-full h-full flex-col items-center justify-center bg-gray-100">
-            <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
-                <Header subtitle={t("loginHeaderMessage", { ns: "common" })} />
-                <div className="flex flex-row items-center gap-6">
+        <div className="relative w-full h-screen overflow-hidden">
+            <VideoBackground />
+            <div className="relative z-20 flex w-full h-full flex-col items-center justify-center overflow-y-auto">
+                <div className="flex w-full h-full flex-col items-center justify-center">
                     <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
-                        <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
-                            <div className="flex flex-col items-center gap-2">
-                                <FeatureIcon label="" icon={LucideLockOpen}
-                                    classname="bg-green-100 rounded-full w-12 h-12 flex justify-center items-center text-green-500" />
-                                <p className="text-black text-left font-bold text-2xl">{t("resetPasswordTitle")}</p>
-                                <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">{t("resetPasswordSubtitle")}</p>
+                        <Header subtitle={t("loginHeaderMessage", { ns: "common" })} subtitleColor="text-gray-200" titleColor="text-gray-100" />
+                        <div className="flex flex-row items-center gap-6">
+                            <div className="flex flex-col items-center justify-center gap-6 lg:gap-4">
+                                <section className="flex flex-col items-center justify-center bg-white rounded-md shadow-xl p-6 gap-4">
+                                    <div className="flex flex-col items-center gap-2">
+                                        <FeatureIcon label="" icon={LucideLockOpen} labelColor="text-gray-200"
+                                            classname="bg-green-100 rounded-full w-12 h-12 flex justify-center items-center text-green-500" />
+                                        <p className="text-black text-left font-bold text-2xl">{t("resetPasswordTitle")}</p>
+                                        <p className="text-gray-500 text-center line-clamp-2 w-70 lg:w-90">{t("resetPasswordSubtitle")}</p>
+                                    </div>
+                                    <form className="flex flex-col w-80 gap-6" onSubmit={handleResetPassword}>
+                                        <div className="flex flex-col">
+                                            <IconInput inputId="password" onChange={(e) => setPassword(e.target.value)}
+                                                icon={LucideLock} type="password" placeholder={t("newPasswordPlaceholder")} label={t("newPasswordLabel")}
+                                                classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                            <IconInput inputId="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}
+                                                icon={LucideLock} type="password" placeholder={t("confirmNewPasswordPlaceholder")} label={t("confirmNewPasswordLabel")}
+                                                classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
+                                        </div>
+                                        <IconButton label={t("resetPassword")} icon={LucideShield}
+                                            classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                                    </form>
+                                </section>
+                                <section className="flex items-center gap-2">
+                                    <p className="text-gray-200">{t("resetSuccessfully")}</p>
+                                    <Link to="/login" className="text-sm !text-blue-600">{t("signInNow")}</Link>
+                                </section>
                             </div>
-                            <form className="flex flex-col w-80 gap-6" onSubmit={handleResetPassword}>
-                                <div className="flex flex-col">
-                                    <IconInput inputId="password" onChange={(e) => setPassword(e.target.value)}
-                                        icon={LucideLock} type="password" placeholder={t("newPasswordPlaceholder")} label={t("newPasswordLabel")}
-                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
-                                    <IconInput inputId="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)}
-                                        icon={LucideLock} type="password" placeholder={t("confirmNewPasswordPlaceholder")} label={t("confirmNewPasswordLabel")}
-                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" />
-                                </div>
-                                <IconButton label={t("resetPassword")} icon={LucideShield}
-                                    classname="flex items-center justify-center text-white w-full gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
-                            </form>
-                        </section>
-                        <section className="flex items-center gap-2">
-                            <p className="text-gray-500">{t("resetSuccessfully")}</p>
-                            <Link to="/login" className="text-sm !text-blue-600">{t("signInNow")}</Link>
-                        </section>
+                            {message && <AlertBlock icon={LucideShield}
+                                title={t("resetPassword")}
+                                body={message}
+                                type={alertType} />}
+                        </div>
                     </div>
-                    {message && <AlertBlock icon={LucideShield}
-                    title={t("resetPassword")}
-                    body={message}
-                    type={alertType} />}
                 </div>
             </div>
         </div>
