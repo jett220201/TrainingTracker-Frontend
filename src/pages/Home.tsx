@@ -13,6 +13,7 @@ import type { MuscleGroup } from "../types/general/MuscleGroupType";
 import 'react-tooltip/dist/react-tooltip.css'
 import Loading from "../components/Public/Loading";
 import { useTheme } from "../hooks/useTheme";
+import { formatDate } from "../utils/formatDateHelper";
 
 function Home() {
     const {t} = useTranslation([ "common", "home"]);
@@ -65,13 +66,6 @@ function Home() {
             case "Cardio": return LucideHeart;
             default: return LucideCircleAlert;
         }
-    };
-
-    const formatDate = (date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
     };
 
     if (loading) {

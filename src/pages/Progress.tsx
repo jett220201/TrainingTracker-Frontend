@@ -19,6 +19,7 @@ import type { Alert } from "../types/general/AlertType";
 import IconInput from "../components/ui/IconInput";
 import { userProgressApi } from "../api/rest/userProgressApi";
 import type { UserProgressRequest } from "../types/dto/UserProgressRequest";
+import { formatDate } from "../utils/formatDateHelper";
 
 function Progress() {
     const {t} = useTranslation(["common", "progress", "home"]);
@@ -38,13 +39,6 @@ function Progress() {
         errorMsg = error.graphQLErrors.map((err) => err.extensions?.message).join(", ");
         console.error(errorMsg);
     }
-
-    const formatDate = (date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    };
 
     const handleAddNewProgress = async (e : React.FormEvent) => {
         e.preventDefault();

@@ -20,17 +20,11 @@ import type { UserEditRequest } from "../types/dto/UserEditRequest";
 import AlertBlock from "../components/ui/AlertBlock";
 import { useAuthStore } from "../store/AuthStore";
 import { genderMap } from "../utils/genderMapper";
+import { formatDate } from "../utils/formatDateHelper";
 
 const processGender = (gender: string) => {
     if(gender === "" || gender === undefined) return "";
     return gender.at(0)?.toUpperCase() + gender.slice(1).toLowerCase();
-};
-
-const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
 };
 
 function Profile() {

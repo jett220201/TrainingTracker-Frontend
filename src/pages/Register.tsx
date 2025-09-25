@@ -22,10 +22,7 @@ import type { Alert } from "../types/general/AlertType";
 import type { Gender } from "../types/general/GenderType";
 import { genderMap } from "../utils/genderMapper";
 import VideoBackground from "../components/Public/VideoBackground";
-
-function FormatDate(date: Date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-}
+import { formatDate } from "../utils/formatDateHelper";
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -181,7 +178,7 @@ function Register() {
                                         <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-700">{t("birthLabel")}</label>
                                         <div className="relative w-full">
                                             <LucideCalendar className="absolute left-2 top-5 -translate-y-1/2 w-6 h-6 text-gray-300"></LucideCalendar>
-                                            <input id="date" type="text" placeholder={`${dateBirth != null ? FormatDate(dateBirth) : t("birthPlaceholder")}`} className="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" onClick={() => setOpenCalendar(!openCalendar)} />
+                                            <input id="date" type="text" placeholder={`${dateBirth != null ? formatDate(dateBirth) : t("birthPlaceholder")}`} className="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" onClick={() => setOpenCalendar(!openCalendar)} />
                                         </div>
                                         <DayPicker className={`text-black ${openCalendar ? '' : 'hidden'}`}
                                             animate mode="single" selected={dateBirth} onSelect={handleDateSelect}
