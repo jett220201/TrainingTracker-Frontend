@@ -17,5 +17,8 @@
     "newProgressDescription": "Enter your new weight to view your progress",
     "weightLabel": "Weight",
     "weightPlaceholder": "Weight in kilograms",
-    "saveProgress": "Save progress"
+    "saveProgress": "Save progress",
+    "simpleBFP": "BFP",
+    "simpleBMI": "BMI",
+    "newWeightError": "Weight must be positive"
 }

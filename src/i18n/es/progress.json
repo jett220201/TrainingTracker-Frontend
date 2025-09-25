@@ -17,5 +17,8 @@
     "newProgressDescription": "Ingresa tu nuevo peso para visualizar tu progreso",
     "weightLabel": "Peso",
     "weightPlaceholder": "Peso en kilogramos",
-    "saveProgress": "Guardar progreso"
+    "saveProgress": "Guardar progreso",
+    "simpleBFP": "PGC",
+    "simpleBMI": "IMC",
+    "newWeightError": "El peso debe ser positivo"
 }
