@@ -18,11 +18,13 @@ import profileEn from "./i18n/en/profile.json";
 import profileEs from "./i18n/es/profile.json";
 import exercisesEn from "./i18n/en/exercises.json";
 import exercisesEs from "./i18n/es/exercises.json";
+import progressEn from "./i18n/en/progress.json";
+import progressEs from "./i18n/es/progress.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    ns: ["common", "login", "password", "register", "home", "settings", "about", "profile", "exercises"],
+    ns: ["common", "login", "password", "register", "home", "settings", "about", "profile", "exercises", "progress"],
     defaultNS: "common",
     resources: {
       en: {  
@@ -34,7 +36,8 @@ i18n
         settings: settingsEn,
         about: aboutEn,
         profile: profileEn,
-        exercises: exercisesEn
+        exercises: exercisesEn,
+        progress: progressEn
       },
       es: {
         common: commonEs,
@@ -45,7 +48,8 @@ i18n
         settings: settingsEs,
         about: aboutEs,
         profile: profileEs,
-        exercises: exercisesEs
+        exercises: exercisesEs,
+        progress: progressEs
       },
     },
     lng: "es", // Default

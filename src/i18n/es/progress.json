@@ -1,0 +1,21 @@
+{
+    "title": "Mi progreso",
+    "weightGoal": "Peso objetivo",
+    "weightGoalTooltip": "Peso objetivo en kilogramos",
+    "bmiGoal": "IMC objetivo",
+    "bmiGoalTooltip": "Índice de Masa Corporal objetivo",
+    "bfpGoal": "PGC objetivo",
+    "bfpGoalTooltip": "Porcentaje de Grasa Corporal objetivo",
+    "weightProgress": "Progreso en tu peso",
+    "weightProgressTooltip": "Progreso en tu peso en porcentaje",
+    "bmiProgress": "Progreso en tu IMC",
+    "bmiProgressTooltip": "Progreso en tu índice de masa corporal en porcentaje",
+    "bfpProgress": "Progreso en tu PGC",
+    "bfpProgressTooltip": "Progreso en tu porcentaje de grasa corporal en porcentaje",
+    "overview": "Progreso general",
+    "newProgress": "Registrar progreso",
+    "newProgressDescription": "Ingresa tu nuevo peso para visualizar tu progreso",
+    "weightLabel": "Peso",
+    "weightPlaceholder": "Peso en kilogramos",
+    "saveProgress": "Guardar progreso"
+}

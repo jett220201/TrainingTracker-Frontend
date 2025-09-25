@@ -1,0 +1,21 @@
+{
+    "title": "My progress",
+    "weightGoal": "Goal weight",
+    "weightGoalTooltip": "Goal weight in kilograms",
+    "bmiGoal": "Goal BMI",
+    "bmiGoalTooltip": "Goal Body Mass Index",
+    "bfpGoal": "Goal BFP",
+    "bfpGoalTooltip": "Goal Body Fat Percentage",
+    "weightProgress": "Progress in your weight",
+    "weightProgressTooltip": "Progress in your weight as a percentage",
+    "bmiProgress": "Progress in your BMI",
+    "bmiProgressTooltip": "Progress in your body mass index as a percentage",
+    "bfpProgress": "Progress in your BFP",
+    "bfpProgressTooltip": "Progress in your body fat percentage as a percentage",
+    "overview": "Overall progress",
+    "newProgress": "Add new progress",
+    "newProgressDescription": "Enter your new weight to view your progress",
+    "weightLabel": "Weight",
+    "weightPlaceholder": "Weight in kilograms",
+    "saveProgress": "Save progress"
+}
