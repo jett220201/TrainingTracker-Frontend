@@ -1,0 +1,1 @@
+export type GoalDirection = "None" | "Increase" | "Decrease" | "Maintain";

@@ -1,0 +1,1 @@
+export type GoalType = "None" | "Weight" | "BFP" | "BMI";
