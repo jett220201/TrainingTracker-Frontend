@@ -13,7 +13,6 @@ import Home from './pages/Home.tsx';
 import Workouts from './pages/Workouts.tsx';
 import NewWorkout from './pages/NewWorkout.tsx';
 import Goals from './pages/Goals.tsx';
-import NewGoal from './pages/NewGoal.tsx';
 import Progress from './pages/Progress.tsx';
 import Exercises from './pages/Exercises.tsx';
 import Profile from './pages/Profile.tsx';
@@ -46,7 +45,6 @@ const router = createBrowserRouter([
       { path: "/app/workouts", element: <Workouts /> },
       { path: "/app/workouts/new", element: <NewWorkout /> },
       { path: "/app/goals", element: <Goals /> },
-      { path: "/app/goals/new", element: <NewGoal /> },
       { path: "/app/progress", element: <Progress /> },
       { path: "/app/exercises", element: <Exercises /> },
       { path: "/app/profile", element: <Profile /> },
