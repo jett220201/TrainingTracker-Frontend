@@ -5,7 +5,7 @@ function NotFoundPage() {
     const {t} = useTranslation();
     return (
         <>
-            <div className="bg-neutral-50 dark:bg-slate-950 h-full flex flex-col lg:flex-row justify-center gap-10 items-center">
+            <div className="bg-neutral-50 dark:bg-slate-950 w-screen h-screen flex flex-col lg:flex-row justify-center gap-10 items-center">
                 <section className="flex flex-col lg:flex-row justify-center items-center gap-5 lg:w-1/2">
                     <LucideBotOff className="w-20 h-20 text-blue-700"/>
                     <p className="text-blue-700 text-9xl text-shadow-lg">404</p>
