@@ -115,7 +115,7 @@ function Progress() {
                                 <InfoCard tooltipId="tooltipProgressWeight" tooltipContent={t("weightProgressTooltip", { ns: "progress" })}
                                     cardBgColor="bg-linear-to-r from-blue-600 to-blue-800"
                                     title={t("weightProgress", { ns: "progress" })} titleColor="gray-200"
-                                    body={`${data?.userProgressByUser?.weightProgressPercent} %`} bodyColor="gray-100"
+                                    body={`${data?.userProgressByUser?.weightProgressPercent.toFixed(2)} %`} bodyColor="gray-100"
                                     footer="" footerColor=""
                                     icon={LucideWeight} iconBgColor="bg-transparent" iconColor="gray-200"
                                 />
@@ -148,7 +148,7 @@ function Progress() {
                                 <InfoCard tooltipId="tooltipProgressBMI" tooltipContent={t("bmiProgressTooltip", { ns: "progress" })}
                                     cardBgColor="bg-linear-to-r from-orange-400 to-orange-600"
                                     title={t("bmiProgress", { ns: "progress" })} titleColor="gray-200"
-                                    body={`${data?.userProgressByUser?.bodyMassIndexProgressPercent} %`} bodyColor="gray-100"
+                                    body={`${data?.userProgressByUser?.bodyMassIndexProgressPercent.toFixed(2)} %`} bodyColor="gray-100"
                                     footer="" footerColor=""
                                     icon={LucideChartPie} iconBgColor="bg-transparent" iconColor="gray-200"
                                 />
@@ -181,7 +181,7 @@ function Progress() {
                                 <InfoCard tooltipId="tooltipProgressBFP" tooltipContent={t("bfpProgressTooltip", { ns: "progress" })}
                                     cardBgColor="bg-linear-to-r from-green-500 to-emerald-600"
                                     title={t("bfpProgress", { ns: "progress" })} titleColor="gray-200"
-                                    body={`${data?.userProgressByUser?.bodyFatProgressPercent} %`} bodyColor="gray-100"
+                                    body={`${data?.userProgressByUser?.bodyFatProgressPercent.toFixed(2)} %`} bodyColor="gray-100"
                                     footer="" footerColor=""
                                     icon={LucideFlame} iconBgColor="bg-transparent" iconColor="gray-200"
                                 />
