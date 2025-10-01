@@ -1,0 +1,14 @@
+{
+    "workout": "Workout",
+    "workouts": "Workouts",
+    "searchPlaceholder": "Search by workout name",
+    "noWorkouts": "No workouts registered.",
+    "start": "Start Workout",
+    "view": "View Details",
+    "exercises": "Exercises",
+    "newWorkout": "New Workout",
+    "delete": "Delete Workout",
+    "deleteDescription": "Are you sure you want to delete this workout? This action cannot be undone.",
+    "cancel": "Cancel",
+    "edit": "Edit Workout"
+}

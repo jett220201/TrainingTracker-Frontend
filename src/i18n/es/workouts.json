@@ -1,0 +1,14 @@
+{
+    "workout": "Rutina",
+    "workouts": "Rutinas",
+    "searchPlaceholder": "Buscar por nombre de rutina",
+    "noWorkouts": "No hay rutinas registradas.",
+    "start": "Iniciar Rutina",
+    "view": "Ver Detalles",
+    "exercises": "Ejercicios",
+    "newWorkout": "Nueva Rutina",
+    "delete": "Eliminar Rutina",
+    "deleteDescription": "¿Estás seguro de que deseas eliminar esta rutina? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "edit": "Editar Rutina"
+}
