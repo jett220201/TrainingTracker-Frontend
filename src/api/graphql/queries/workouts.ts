@@ -12,6 +12,7 @@ query GetWorkoutsByUser ( $search: String ) {
         repetitions
         sets
         weight
+        restTime
         exercise {
           description
           id

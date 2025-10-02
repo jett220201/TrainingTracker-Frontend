@@ -3,7 +3,7 @@ import TitleHeader from "../components/Public/TitleHeader";
 import { useQuery } from "@apollo/client";
 import { GET_WORKOUTS } from "../api/graphql/queries/workouts";
 import Loading from "../components/Public/Loading";
-import { LucideBan, LucideCheckCheck, LucideDumbbell, LucidePlus, LucideSearch, LucideShield } from "lucide-react";
+import { LucideBan, LucideCheckCheck, LucideCirclePlay, LucideDumbbell, LucidePlus, LucideSearch, LucideShield } from "lucide-react";
 import IconInput from "../components/ui/IconInput";
 import { useEffect, useState, Fragment } from "react";
 import WorkoutCard from "../components/ui/WorkoutCard";
@@ -12,6 +12,7 @@ import { IconButton } from "../components/ui/IconButton";
 import { workoutApi } from "../api/rest/workoutApi";
 import type { Alert } from "../types/general/AlertType";
 import AlertBlock from "../components/ui/AlertBlock";
+import MinimalExerciseCard from "../components/ui/MinimalExerciseCard";
 
 function Workouts() {
     const {t} = useTranslation(["workouts", "common"]);
@@ -25,6 +26,7 @@ function Workouts() {
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
     const [openViewModal, setOpenViewModal] = useState<boolean>(false);
+    const [currentWorkoutDetails, setCurrentWorkoutDetails] = useState<any>(null);
     const {data, loading, error, refetch} = useQuery(GET_WORKOUTS, {
         variables: {
             search: ""
@@ -87,6 +89,14 @@ function Workouts() {
         }
     }
 
+    const handleViewClick = (id: number) => {
+        setCurrentWorkoutId(id);
+        setOpenViewModal(true);
+        const workout = data?.workoutsByUser?.workouts?.find((w: { id: number; }) => w.id === id);
+        setCurrentWorkoutDetails(workout);
+        console.log(workout);
+    }
+
     const getMostCommonMuscle = (exercises: number[]): number => {
         if (exercises.length === 0) return 0;
         const counter = new Map<number, number>();
@@ -126,7 +136,7 @@ function Workouts() {
                 <section className={`grid ${data?.workoutsByUser?.workouts.length > 0 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''} gap-4`}>
                     {data?.workoutsByUser?.workouts.length > 0 ? data?.workoutsByUser?.workouts?.map((item: any, index: number) => (
                         <WorkoutCard key={index} name={item?.name} translate={t} onEdit={() => handleEditClick(item?.id)} 
-                            onView={() => setOpenViewModal(true)} onStart={() => console.log("start")}
+                            onView={() => handleViewClick(item?.id)} onStart={() => console.log("start")}
                             exercisesCount={item?.workoutExercises?.length ?? 0} onDelete={() => handleDeleteClick(item?.id)}
                             muscleGroup={getMostCommonMuscle(item?.workoutExercises?.map((x: { exercise: any }) => x?.exercise?.muscleGroup))}
                         />
@@ -164,6 +174,39 @@ function Workouts() {
                                 title={""}
                                 body={message}
                                 type={alertType} />}
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            <Transition show={openViewModal} as={Fragment}>
+                <Dialog as="div" onClose={setOpenViewModal} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:max-w-2xl lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{currentWorkoutDetails?.name}</DialogTitle>
+                            <Description className="text-black dark:text-gray-100">{`${currentWorkoutDetails?.workoutExercises?.length ?? 0} ${t("exercises",  { ns: "workouts" })}`}</Description>
+                            <section className="flex flex-col gap-1 mt-4">
+                                <p className="text-gray-500 dark:text-gray-200 flex gap-1">{t("exercises", { ns: "workouts" })}</p>
+                                <div className="flex flex-col gap-2 mt-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar]:w-2">
+                                    {currentWorkoutDetails?.workoutExercises?.length > 0 ?
+                                        currentWorkoutDetails?.workoutExercises?.map((exercise: any, index: number) => (
+                                            <MinimalExerciseCard key={index} name={exercise?.exercise?.name} muscleGroup={exercise?.exercise?.muscleGroup}
+                                                reps={exercise?.repetitions} sets={exercise?.sets} restTime={exercise?.restTime} weight={exercise?.weight}
+                                                translate={t} description={exercise?.exercise?.description} />
+                                        ))
+                                        :
+                                        <p className="text-black dark:text-gray-100">{t("noExercises", { ns: "workouts" })}</p>
+                                    }
+                                </div>
+                                <IconButton 
+                                    icon={LucideCirclePlay}
+                                    label={t("start", { ns: "workouts" })}
+                                    classname="flex justify-center items-center gap-2 mt-4 bg-linear-to-r from-sky-600 to-blue-800 text-white w-full"
+                                    onClick={() => { }}
+                                />
+                            </section>
+                            
                         </DialogPanel>
                     </div>
                 </Dialog>
