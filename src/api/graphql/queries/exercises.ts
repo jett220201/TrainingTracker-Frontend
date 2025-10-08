@@ -27,6 +27,7 @@ query GetPaginateExercises(
     edges {
       cursor
       node {
+        id
         description
         muscleGroupName
         muscleGroup
