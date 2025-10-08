@@ -1,20 +1,26 @@
 import {
-    LucideAnvil, LucideBicepsFlexed, LucideCircleAlert, LucideCircleQuestionMark,
-    LucideFootprints, LucideHeart, LucidePersonStanding, LucideShirt,
+    LucideAnvil, LucideBicepsFlexed, LucideCheck, LucideCircleAlert, LucideCircleQuestionMark,
+    LucideFootprints, LucideHeart, LucidePersonStanding, LucidePlus, LucideShirt,
     LucideZap, type LucideIcon
 } from "lucide-react";
+import { IconButton } from "./IconButton";
+import { useEffect, useState } from "react";
+
 interface MinimalExerciseCardProps {
     name: string
     description: string
     muscleGroup: number
-    reps: number
-    sets: number
-    restTime: number
-    weight: number
+    reps?: number
+    sets?: number
+    restTime?: number
+    weight?: number
+    exists?: boolean
     translate: (key: string) => string
+    onAdd?: (event: React.FormEvent) => void
+    onRemove?: (event: React.FormEvent) => void
 }
 
-function MinimalExerciseCard({name, description, muscleGroup, reps, sets, restTime, weight, translate} : MinimalExerciseCardProps) {
+function MinimalExerciseCard({name, description, muscleGroup, reps, sets, restTime, weight, translate, onAdd, onRemove, exists} : MinimalExerciseCardProps) {
     const getIconByMuscleGroup = (group : number) : [LucideIcon, string, string] => {
         switch(group) {
             case 0: return [LucideCircleAlert, 'bg-linear-to-r from-gray-400 to-gray-600', 'text-white'];
@@ -29,9 +35,24 @@ function MinimalExerciseCard({name, description, muscleGroup, reps, sets, restTi
         }
     };
     const [Icon, backgroundColor, iconColor] = getIconByMuscleGroup(muscleGroup);
+    const [checked, setChecked] = useState(exists ?? false);
+
+    useEffect(() => {
+        setChecked(exists ?? false);
+    }, [exists]);
+    
+    const handleClick = (e: React.FormEvent) => {
+        e.preventDefault();
+        if(onAdd && onRemove) {
+            checked ? onRemove(e) : onAdd(e);
+        }
+        setChecked(!checked);
+    };
+
     return (
         <>
-            <article className="flex flex-col rounded-xl border border-gray-200 p-5 bg-gray-100 dark:bg-gray-800 gap-4">
+            <article className={`flex flex-col rounded-xl border border-gray-200 p-5 bg-gray-100 dark:bg-gray-800 ${onAdd ? "gap-1 relative" : "gap-4"}`}>
+                {onAdd && <IconButton icon={checked ? LucideCheck : LucidePlus} label={""} classname="absolute top-4 right-4 flex text-gray-400 dark:text-white !p-1 bg-blue-500 hover:text-green-400 self-end" onClickForm={handleClick} />}
                 <section className="flex gap-4">
                     <div className="w-1/8 hidden lg:flex items-center justify-center">
                         <div className={`h-12 w-12 ${backgroundColor} hidden lg:flex justify-center items-center rounded-xl`}>
@@ -44,10 +65,10 @@ function MinimalExerciseCard({name, description, muscleGroup, reps, sets, restTi
                     </div>
                 </section>
                 <section className="grid grid-cols-1 lg:flex gap-4 justify-center">
-                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("sets")}:`}<span className="font-semibold text-black dark:text-gray-100">{sets}</span></p>
-                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("reps")}:`}<span className="font-semibold text-black dark:text-gray-100">{reps}</span></p>
-                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("weight")}:`}<span className="font-semibold text-black dark:text-gray-100">{weight} kg</span></p>
-                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("rest")}:`}<span className="font-semibold text-black dark:text-gray-100">{restTime} {translate("minutes")}</span></p>
+                    {sets && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("sets")}:`}<span className="font-semibold text-black dark:text-gray-100">{sets}</span></p>}
+                    {reps && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("reps")}:`}<span className="font-semibold text-black dark:text-gray-100">{reps}</span></p>}
+                    {weight && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("weight")}:`}<span className="font-semibold text-black dark:text-gray-100">{weight} kg</span></p>}
+                    {restTime && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("rest")}:`}<span className="font-semibold text-black dark:text-gray-100">{restTime} {translate("minutes")}</span></p>}
                 </section>
             </article>
         </>
