@@ -1,4 +1,9 @@
-interface WorkoutExerciseAssociation {
+export interface WorkoutExercise extends WorkoutExerciseAssociation {
+    name: string;
+    description: string;
+}
+
+export interface WorkoutExerciseAssociation {
     exerciseId: number;
     sets: number;
     repetitions: number;
