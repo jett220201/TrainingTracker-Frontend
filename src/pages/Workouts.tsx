@@ -3,7 +3,7 @@ import TitleHeader from "../components/Public/TitleHeader";
 import { useQuery } from "@apollo/client";
 import { GET_WORKOUTS } from "../api/graphql/queries/workouts";
 import Loading from "../components/Public/Loading";
-import { LucideBan, LucideCheckCheck, LucideCirclePlay, LucideDumbbell, LucidePlus, LucideSearch, LucideShield } from "lucide-react";
+import { LucideBan, LucideCheck, LucideCheckCheck, LucideCirclePlay, LucideDumbbell, LucidePlus, LucideSearch, LucideShield } from "lucide-react";
 import IconInput from "../components/ui/IconInput";
 import { useEffect, useState, Fragment } from "react";
 import WorkoutCard from "../components/ui/WorkoutCard";
@@ -13,6 +13,10 @@ import { workoutApi } from "../api/rest/workoutApi";
 import type { Alert } from "../types/general/AlertType";
 import AlertBlock from "../components/ui/AlertBlock";
 import MinimalExerciseCard from "../components/ui/MinimalExerciseCard";
+import WorkoutExerciseForm from "../components/ui/WorkoutExerciseForm";
+import { useFormStore } from "../store/FormStore";
+import type { WorkoutExercise, WorkoutExerciseAssociation, WorkoutsRequest } from "../types/dto/WorkoutsRequest";
+import ExercisesList from "../components/ui/ExercisesList";
 
 function Workouts() {
     const {t} = useTranslation(["workouts", "common"]);
@@ -20,8 +24,10 @@ function Workouts() {
     const [message, setMessage] = useState<string | null>(null);
     const [alertType, setAlertType] = useState<Alert>("Tip");
     const [search, setSearch] = useState<string>("");
+    const { name, items, setName, addItem, editItem, removeItem, removeItemById, reset } = useFormStore();
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [currentWorkoutId, setCurrentWorkoutId] = useState<number>(0);
+    const [showSelectorExercises, setShowSelectorExercises] = useState<boolean>(false);
     const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
@@ -64,6 +70,20 @@ function Workouts() {
     const handleEditClick = (id: number) => {
         setCurrentWorkoutId(id);
         setOpenEditModal(true);
+        const workout = data?.workoutsByUser?.workouts?.find((w: { id: number; }) => w.id === id);
+        reset();
+        setName(workout?.name);
+        workout?.workoutExercises?.forEach((exercise: any) => {
+            addItem({
+                exerciseId: exercise?.exercise?.id,
+                name: exercise?.exercise?.name,
+                description: exercise?.exercise?.description,
+                sets: exercise?.sets,
+                repetitions: exercise?.repetitions,
+                weight: exercise?.weight,
+                restTimeInMinutes: exercise?.restTime
+            });
+        });
     }
 
     const handleDeleteWorkout = async () => {
@@ -94,8 +114,100 @@ function Workouts() {
         setOpenViewModal(true);
         const workout = data?.workoutsByUser?.workouts?.find((w: { id: number; }) => w.id === id);
         setCurrentWorkoutDetails(workout);
-        console.log(workout);
     }
+
+    const handleAddExercise = (e: React.FormEvent) => {
+        e.preventDefault();
+        setShowSelectorExercises(!showSelectorExercises);
+    }
+
+    const handleRemoveExercise = (e: React.FormEvent, index: number) => {
+        e.preventDefault();
+        removeItem(index);
+    }
+
+    const handleEditExercise = (index: number, newItem: WorkoutExercise) => {
+        editItem(index, newItem);
+    }
+
+    const handleAddExerciseToWorkout = (exercise: WorkoutExercise) => {
+        addItem(exercise);
+    }
+
+    const handleRemoveExerciseToWorkout = (id: number) => {
+        removeItemById(id);
+    }
+
+    const handleEditWorkout = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (name.trim() === "") {
+            setAlertType("Error");
+            setMessage(t("nameRequired", { ns: "workouts" }));
+            return;
+        }
+
+        if (items.length === 0) {
+            setAlertType("Error");
+            setMessage(t("atLeastOneExercise", { ns: "workouts" }));
+            return;
+        }
+
+        items.forEach((item) => {
+            if (item.sets <= 0) {
+                setAlertType("Error");
+                setMessage(t("zeroSets", { ns: "workouts" }));
+                return;
+            }
+            if (item.repetitions <= 0) {
+                setAlertType("Error");
+                setMessage(t("zeroReps", { ns: "workouts" }));
+                return;
+            }
+            if (item.weight < 0) {
+                setAlertType("Error");
+                setMessage(t("negativeWeight", { ns: "workouts" }));
+                return;
+            }
+            if (item.restTimeInMinutes < 0) {
+                setAlertType("Error");
+                setMessage(t("negativeRest", { ns: "workouts" }));
+                return;
+            }
+        });
+
+        try {
+            const payload = {
+                id : currentWorkoutId,
+                name: name,
+                exercisesAssociation: items.map((item) => ({
+                    exerciseId: item.exerciseId,
+                    sets: item.sets,
+                    repetitions: item.repetitions,
+                    weight: item.weight,
+                    restTimeInMinutes: item.restTimeInMinutes
+                } as WorkoutExerciseAssociation))
+            };
+
+            const response = await workoutApi.edit(payload as WorkoutsRequest);
+            setAlertType("Success");
+            setMessage(response.message);
+
+            // refresh data
+            await refetch();
+
+            // hide message
+            setTimeout(() => {
+                setMessage("");
+                setOpenEditModal(false);
+            }, 3000);
+        }
+        catch (error: any) {
+            setAlertType("Error");
+            setMessage(error.details != undefined ? error.details : 
+                error.message != undefined ? error.message : Object.values(error.errors).join(', '))
+        }
+    };
 
     const getMostCommonMuscle = (exercises: number[]): number => {
         if (exercises.length === 0) return 0;
@@ -206,7 +318,60 @@ function Workouts() {
                                     onClick={() => { }}
                                 />
                             </section>
-                            
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            <Transition show={openEditModal} as={Fragment}>
+                <Dialog as="div" onClose={setOpenEditModal} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:max-w-2xl lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{t("edit", { ns: "workouts" })}</DialogTitle>
+                            <form>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-4`}>
+                                    <IconInput
+                                        inputId="workoutName"
+                                        icon={LucideDumbbell}
+                                        type={"text"}
+                                        placeholder={t("namePlaceholder", { ns: "workouts" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200"
+                                        label={t("name", { ns: "workouts" })}
+                                        value={name}
+                                        onChange={(e) => {setName(e.target.value)}}
+                                    />
+                                </div>
+                                
+                                <div className="flex flex-row justify-between items-center">
+                                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{t("exercises", { ns: "workouts" })}</p>
+                                    <IconButton icon={LucidePlus} label={t(showSelectorExercises ? "save" : "addExercise", { ns: "workouts" })} onClickForm={(e) => handleAddExercise(e)}
+                                        classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
+                                </div>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar]:w-2`}>
+                                    {items.length > 0 ?
+                                        items?.map((exercise: any, index: number) => (
+                                            <WorkoutExerciseForm key={index} onEdit={handleEditExercise} onDelete={(e) => handleRemoveExercise(e, index)}
+                                                reps={exercise?.repetitions} sets={exercise?.sets} restTime={exercise?.restTimeInMinutes} weight={exercise?.weight}
+                                                translate={t} description={exercise?.description} name={exercise?.name} 
+                                                index={index} id={exercise?.exerciseId}/>
+                                        ))
+                                        :
+                                        <p className="text-black dark:text-gray-100">{t("noExercises", { ns: "workouts" })}</p>
+                                    }
+                                </div>
+                                <div className={`${showSelectorExercises ? 'flex' : 'hidden'} flex-row justify-end mt-2`}>
+                                    <ExercisesList onAddExerciseToWorkout={handleAddExerciseToWorkout} onRemoveExerciseToWorkout={handleRemoveExerciseToWorkout}/>
+                                </div>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-row justify-center items-center w-full`}>
+                                    <IconButton label={t("save", { ns: "workouts" })} icon={LucideCheck} onClickForm={handleEditWorkout}
+                                        classname="flex items-center justify-center text-white !border !border-gray-800 rounded mt-2 gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                                </div>                                
+                            </form>
+                            {message && <AlertBlock icon={LucideShield}
+                                title={""}
+                                body={message}
+                                type={alertType} />}
                         </DialogPanel>
                     </div>
                 </Dialog>
