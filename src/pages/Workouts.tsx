@@ -209,6 +209,76 @@ function Workouts() {
         }
     };
 
+    const handleCreateWorkout = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (name.trim() === "") {
+            setAlertType("Error");
+            setMessage(t("nameRequired", { ns: "workouts" }));
+            return;
+        }
+
+        if (items.length === 0) {
+            setAlertType("Error");
+            setMessage(t("atLeastOneExercise", { ns: "workouts" }));
+            return;
+        }
+
+        items.forEach((item) => {
+            if (item.sets <= 0) {
+                setAlertType("Error");
+                setMessage(t("zeroSets", { ns: "workouts" }));
+                return;
+            }
+            if (item.repetitions <= 0) {
+                setAlertType("Error");
+                setMessage(t("zeroReps", { ns: "workouts" }));
+                return;
+            }
+            if (item.weight < 0) {
+                setAlertType("Error");
+                setMessage(t("negativeWeight", { ns: "workouts" }));
+                return;
+            }
+            if (item.restTimeInMinutes < 0) {
+                setAlertType("Error");
+                setMessage(t("negativeRest", { ns: "workouts" }));
+                return;
+            }
+        });
+
+        try {
+            const payload = {
+                name: name,
+                exercisesAssociation: items.map((item) => ({
+                    exerciseId: item.exerciseId,
+                    sets: item.sets,
+                    repetitions: item.repetitions,
+                    weight: item.weight,
+                    restTimeInMinutes: item.restTimeInMinutes
+                } as WorkoutExerciseAssociation))
+            };
+            
+            const response = await workoutApi.add(payload as WorkoutsRequest);
+            setAlertType("Success");
+            setMessage(response.message);
+
+            // refresh data
+            await refetch();
+
+            // hide message
+            setTimeout(() => {
+                setMessage("");
+                setOpenCreateModal(false);
+            }, 3000);
+        }
+        catch (error: any) {
+            setAlertType("Error");
+            setMessage(error.details != undefined ? error.details : 
+                error.message != undefined ? error.message : Object.values(error.errors).join(', '))
+        }
+    };
+
     const getMostCommonMuscle = (exercises: number[]): number => {
         if (exercises.length === 0) return 0;
         const counter = new Map<number, number>();
@@ -242,7 +312,7 @@ function Workouts() {
                         label={""}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    <IconButton icon={LucidePlus} label={t("newWorkout", { ns: "workouts" })} onClick={() => setOpenCreateModal(true)}
+                    <IconButton icon={LucidePlus} label={t("newWorkout", { ns: "workouts" })} onClick={() => {setOpenCreateModal(true); reset();}}
                         classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap !rounded bg-blue-700 gap-2"} />
                 </section>
                 <section className={`grid ${data?.workoutsByUser?.workouts.length > 0 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''} gap-4`}>
@@ -368,10 +438,68 @@ function Workouts() {
                                         classname="flex items-center justify-center text-white !border !border-gray-800 rounded mt-2 gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
                                 </div>                                
                             </form>
-                            {message && <AlertBlock icon={LucideShield}
-                                title={""}
-                                body={message}
-                                type={alertType} />}
+                            {message && <div className="flex p-5">
+                                <AlertBlock icon={LucideShield}
+                                    title={""}
+                                    body={message}
+                                    type={alertType} />
+                            </div>}
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            <Transition show={openCreateModal} as={Fragment}>
+                <Dialog as="div" onClose={setOpenCreateModal} className="relative z-2">
+                    <div className="fixed inset-0 bg-black/30" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <DialogPanel className="w-80 max-w-md lg:max-w-2xl lg:w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                            <DialogTitle className="text-xl font-bold text-black dark:text-gray-100">{t("newWorkout", { ns: "workouts" })}</DialogTitle>
+                            <form>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-4`}>
+                                    <IconInput
+                                        inputId="workoutName"
+                                        icon={LucideDumbbell}
+                                        type={"text"}
+                                        placeholder={t("namePlaceholder", { ns: "workouts" })}
+                                        classname="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500 dark:text-gray-200"
+                                        label={t("name", { ns: "workouts" })}
+                                        value={name}
+                                        onChange={(e) => {setName(e.target.value)}}
+                                    />
+                                </div>
+                                
+                                <div className="flex flex-row justify-between items-center">
+                                    <p className="text-gray-500 dark:text-gray-200 flex gap-1">{t("exercises", { ns: "workouts" })}</p>
+                                    <IconButton icon={LucidePlus} label={t(showSelectorExercises ? "save" : "addExercise", { ns: "workouts" })} onClickForm={(e) => handleAddExercise(e)}
+                                        classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
+                                </div>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar]:w-2`}>
+                                    {items.length > 0 ?
+                                        items?.map((exercise: any, index: number) => (
+                                            <WorkoutExerciseForm key={index} onEdit={handleEditExercise} onDelete={(e) => handleRemoveExercise(e, index)}
+                                                reps={exercise?.repetitions} sets={exercise?.sets} restTime={exercise?.restTimeInMinutes} weight={exercise?.weight}
+                                                translate={t} description={exercise?.description} name={exercise?.name} 
+                                                index={index} id={exercise?.exerciseId}/>
+                                        ))
+                                        :
+                                        <p className="text-black dark:text-gray-100">{t("noExercises", { ns: "workouts" })}</p>
+                                    }
+                                </div>
+                                <div className={`${showSelectorExercises ? 'flex' : 'hidden'} flex-row justify-end mt-2`}>
+                                    <ExercisesList onAddExerciseToWorkout={handleAddExerciseToWorkout} onRemoveExerciseToWorkout={handleRemoveExerciseToWorkout}/>
+                                </div>
+                                <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-row justify-center items-center w-full`}>
+                                    <IconButton label={t("save", { ns: "workouts" })} icon={LucideCheck} onClickForm={handleCreateWorkout}
+                                        classname="flex items-center justify-center text-white !border !border-gray-800 rounded mt-2 gap-4 font-medium bg-linear-to-r from-sky-600 to-blue-800" />
+                                </div>                                
+                            </form>
+                            {message && <div className="flex p-5">
+                                <AlertBlock icon={LucideShield}
+                                    title={""}
+                                    body={message}
+                                    type={alertType} />
+                            </div>}
                         </DialogPanel>
                     </div>
                 </Dialog>
