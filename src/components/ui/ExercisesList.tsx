@@ -72,7 +72,7 @@ function ExercisesList({ onAddExerciseToWorkout, onRemoveExerciseToWorkout }: Ex
 
     const getButtonClasses = (value: number | null) => {
         const isActive = muscle === value;
-        const baseClasses = "flex !rounded-3xl px-2 py-0 items-center justify-center !text-sm cursor-pointer transition-colors duration-200";
+        const baseClasses = "flex !rounded-3xl px-2 py-0 items-center justify-center !text-xs lg:!text-sm cursor-pointer transition-colors duration-200";
         return isActive
             ? `${baseClasses} bg-blue-700 text-white`
             : `${baseClasses} bg-gray-200 dark:bg-slate-900 text-gray-800 dark:text-gray-100`;

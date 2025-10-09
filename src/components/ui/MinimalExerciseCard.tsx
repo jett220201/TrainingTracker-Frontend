@@ -68,7 +68,7 @@ function MinimalExerciseCard({name, description, muscleGroup, reps, sets, restTi
                     {sets && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("sets")}:`}<span className="font-semibold text-black dark:text-gray-100">{sets}</span></p>}
                     {reps && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("reps")}:`}<span className="font-semibold text-black dark:text-gray-100">{reps}</span></p>}
                     {weight && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("weight")}:`}<span className="font-semibold text-black dark:text-gray-100">{weight} kg</span></p>}
-                    {restTime && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("rest")}:`}<span className="font-semibold text-black dark:text-gray-100">{restTime} {translate("minutes")}</span></p>}
+                    {restTime && <p className="text-gray-500 dark:text-gray-200 flex gap-1">{`${translate("rest")}:`}<span className="font-semibold text-black dark:text-gray-100">{restTime} {restTime > 1 ? translate("minutes") : translate("minute")}</span></p>}
                 </section>
             </article>
         </>

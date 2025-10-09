@@ -416,7 +416,7 @@ function Workouts() {
                                 <div className="flex flex-row justify-between items-center">
                                     <p className="text-gray-500 dark:text-gray-200 flex gap-1">{t("exercises", { ns: "workouts" })}</p>
                                     <IconButton icon={LucidePlus} label={t(showSelectorExercises ? "save" : "addExercise", { ns: "workouts" })} onClickForm={(e) => handleAddExercise(e)}
-                                        classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
+                                        classname={"flex items-center w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
                                 </div>
                                 <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar]:w-2`}>
                                     {items.length > 0 ?
@@ -472,7 +472,7 @@ function Workouts() {
                                 <div className="flex flex-row justify-between items-center">
                                     <p className="text-gray-500 dark:text-gray-200 flex gap-1">{t("exercises", { ns: "workouts" })}</p>
                                     <IconButton icon={LucidePlus} label={t(showSelectorExercises ? "save" : "addExercise", { ns: "workouts" })} onClickForm={(e) => handleAddExercise(e)}
-                                        classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
+                                        classname={"flex items-center w-fit justify-center h-10 text-gray-100 whitespace-nowrap rounded:lg bg-blue-700 gap-2"} />
                                 </div>
                                 <div className={`${showSelectorExercises ? 'hidden' : 'flex'} flex-col gap-2 mt-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar]:w-2`}>
                                     {items.length > 0 ?
