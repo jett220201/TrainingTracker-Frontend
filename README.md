@@ -11,7 +11,7 @@ SPA for managing user routines and progress, developed with Vite, React, Tailwin
 - **Zustand** 🐻
 - **i18next** 🌎
 
-[![My Skills](https://skillicons.dev/icons?i=vite,react,tailwind,apollo,npm)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=vite,ts,react,tailwind,apollo,npm)](https://skillicons.dev)
 
 ### 💎 Features
 - Language:
