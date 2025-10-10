@@ -17,6 +17,8 @@ import WorkoutExerciseForm from "../components/ui/WorkoutExerciseForm";
 import { useFormStore } from "../store/FormStore";
 import type { WorkoutExercise, WorkoutExerciseAssociation, WorkoutsRequest } from "../types/dto/WorkoutsRequest";
 import ExercisesList from "../components/ui/ExercisesList";
+import WorkoutPlayerBar from "../components/ui/WorkoutPlayerBar";
+import { useWorkoutStore } from "../store/WorkoutStore";
 
 function Workouts() {
     const {t} = useTranslation(["workouts", "common"]);
@@ -25,6 +27,7 @@ function Workouts() {
     const [alertType, setAlertType] = useState<Alert>("Tip");
     const [search, setSearch] = useState<string>("");
     const { name, items, setName, addItem, editItem, removeItem, removeItemById, reset } = useFormStore();
+    const { workout, setWorkout, resetWorkout } = useWorkoutStore();
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [currentWorkoutId, setCurrentWorkoutId] = useState<number>(0);
     const [showSelectorExercises, setShowSelectorExercises] = useState<boolean>(false);
@@ -279,6 +282,24 @@ function Workouts() {
         }
     };
 
+    const handlePlayWorkout = (name: string, exercises: any[]) => {
+        resetWorkout();
+        setWorkout(
+            {
+                workoutName: name,
+                muscleGroup: getMostCommonMuscle(exercises?.map((x: { exercise: any }) => x?.exercise?.muscleGroup)),
+                exercises: exercises.map((exercise: any) => ({
+                    name: exercise?.exercise?.name,
+                    description: exercise?.exercise?.description,
+                    sets: exercise?.sets,
+                    repetitions: exercise?.repetitions,
+                    weight: exercise?.weight,
+                    restTimeInMinutes: exercise?.restTime
+                } as WorkoutExercise))
+            }
+        );
+    }
+
     const getMostCommonMuscle = (exercises: number[]): number => {
         if (exercises.length === 0) return 0;
         const counter = new Map<number, number>();
@@ -315,10 +336,10 @@ function Workouts() {
                     <IconButton icon={LucidePlus} label={t("newWorkout", { ns: "workouts" })} onClick={() => {setOpenCreateModal(true); reset();}}
                         classname={"flex items-center w-full lg:w-fit justify-center h-10 text-gray-100 whitespace-nowrap !rounded bg-blue-700 gap-2"} />
                 </section>
-                <section className={`grid ${data?.workoutsByUser?.workouts.length > 0 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''} gap-4`}>
+                <section className={`grid ${data?.workoutsByUser?.workouts.length > 0 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : ''} gap-4 lg:ml-4`}>
                     {data?.workoutsByUser?.workouts.length > 0 ? data?.workoutsByUser?.workouts?.map((item: any, index: number) => (
                         <WorkoutCard key={index} name={item?.name} translate={t} onEdit={() => handleEditClick(item?.id)} 
-                            onView={() => handleViewClick(item?.id)} onStart={() => console.log("start")}
+                            onView={() => handleViewClick(item?.id)} onStart={() => handlePlayWorkout(item?.name, item?.workoutExercises)}
                             exercisesCount={item?.workoutExercises?.length ?? 0} onDelete={() => handleDeleteClick(item?.id)}
                             muscleGroup={getMostCommonMuscle(item?.workoutExercises?.map((x: { exercise: any }) => x?.exercise?.muscleGroup))}
                         />
@@ -329,6 +350,7 @@ function Workouts() {
                         </div>
                     }
                 </section>
+                {workout && <WorkoutPlayerBar />}
             </div>
             
             <Transition show={openDeleteModal} as={Fragment}>
@@ -385,7 +407,10 @@ function Workouts() {
                                     icon={LucideCirclePlay}
                                     label={t("start", { ns: "workouts" })}
                                     classname="flex justify-center items-center gap-2 mt-4 bg-linear-to-r from-sky-600 to-blue-800 text-white w-full"
-                                    onClick={() => { }}
+                                    onClick={() => {
+                                        handlePlayWorkout(currentWorkoutDetails?.name, currentWorkoutDetails?.workoutExercises);
+                                        setOpenViewModal(false);
+                                    }}
                                 />
                             </section>
                         </DialogPanel>
