@@ -1,4 +1,4 @@
-import { LucideBookOpenText, LucideChartLine, LucideDumbbell, LucideGoal, LucideHouse, LucideSettings, LucideUser } from "lucide-react";
+import { LucideBookOpenText, LucideChartLine, LucideDumbbell, LucideGoal, LucideHouse, LucideLogOut, LucideSettings, LucideUser } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -48,6 +48,12 @@ function MobileSidebar() {
                     <Link to="/app/settings" className="flex flex-col items-center">
                         <LucideSettings className="w-6 h-6 text-blue-700 dark:text-gray-200" />
                         <p className="!text-gray-700 dark:!text-gray-200 text-sm">{t("settings")}</p>
+                    </Link>
+                </li>
+                <li className="hover:cursor-pointer w-1/4 flex justify-center items-center flex-shrink-0">
+                    <Link to="login" className="flex flex-col items-center">
+                        <LucideLogOut className="w-6 h-6 text-blue-700 dark:text-gray-200" />
+                        <p className="!text-gray-700 dark:!text-gray-200 text-sm">{t("logout")}</p>
                     </Link>
                 </li>
             </ul>
