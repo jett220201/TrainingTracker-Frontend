@@ -11,7 +11,6 @@ import RecoveryPassword from './pages/RecoveryPassword.tsx';
 import PrivacyTerms from './pages/PrivacyTerms.tsx';
 import Home from './pages/Home.tsx';
 import Workouts from './pages/Workouts.tsx';
-import NewWorkout from './pages/NewWorkout.tsx';
 import Goals from './pages/Goals.tsx';
 import Progress from './pages/Progress.tsx';
 import Exercises from './pages/Exercises.tsx';
@@ -43,7 +42,6 @@ const router = createBrowserRouter([
     children: [
       { path: "/app/home", element: <Home /> },
       { path: "/app/workouts", element: <Workouts /> },
-      { path: "/app/workouts/new", element: <NewWorkout /> },
       { path: "/app/goals", element: <Goals /> },
       { path: "/app/progress", element: <Progress /> },
       { path: "/app/exercises", element: <Exercises /> },
