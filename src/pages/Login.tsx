@@ -46,7 +46,7 @@ function Login() {
             <div className="relative z-20 flex w-full h-full flex-col items-center justify-center overflow-y-auto">
                 <div className="flex flex-col items-center justify-center gap-6 lg:gap-4 my-4">
                     <Header subtitle={t("loginHeaderMessage", { ns: "common" })} subtitleColor="text-gray-200" titleColor="text-gray-100"/>
-                    <section className="flex flex-col items-start justify-center bg-white rounded-md shadow-xl p-6 m-2 lg:m-0 gap-2">
+                    <section className="flex flex-col items-start justify-center bg-white rounded-md shadow-xl p-4 lg:p-6 mx-8 lg:mx-2 m-2 lg:m-0 gap-2">
                         <div className="flex flex-col gap-2">
                             <p className="text-black text-left font-bold text-2xl">
                                 {t("welcome")}
