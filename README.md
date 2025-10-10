@@ -126,7 +126,6 @@ This project has the following structure:
  ┃ ┃ ┣ 📜Goals.tsx
  ┃ ┃ ┣ 📜Home.tsx
  ┃ ┃ ┣ 📜Login.tsx
- ┃ ┃ ┣ 📜NewWorkout.tsx
  ┃ ┃ ┣ 📜NotFoundPage.tsx
  ┃ ┃ ┣ 📜PrivacyTerms.tsx
  ┃ ┃ ┣ 📜Profile.tsx
