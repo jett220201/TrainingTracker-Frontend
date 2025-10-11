@@ -1,1 +1,1 @@
-export type GoalType = "None" | "Weight" | "BFP" | "BMI";
+export type GoalType = "NONE" | "WEIGHT" | "BFP" | "BMI";

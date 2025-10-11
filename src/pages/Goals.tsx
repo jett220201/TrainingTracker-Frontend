@@ -35,18 +35,13 @@ function Goals() {
     const [alertType, setAlertType] = useState<Alert>("Tip");
     const [description, setDescription] = useState<string>("");
     const [targetValue, setTargetValue] = useState<number>(0);
-    const [goalType, setGoalType] = useState<GoalType>("None");
-    const [goalDirection, setGoalDirection] = useState<GoalDirection>("None");
+    const [goalType, setGoalType] = useState<GoalType>("NONE");
+    const [goalDirection, setGoalDirection] = useState<GoalDirection>("NONE");
     const [goalDate, setGoalDate] = useState<Date>();
     const [openCreateGoalModal, setOpenCreateGoalModal] = useState(false);
     const [openEditGoalModal, setOpenEditGoalModal] = useState(false);
     const [openDeleteGoalModal, setOpenDeleteGoalModal] = useState(false);
     const [currentGoalId, setCurrentGoalId] = useState<number>(0);
-    const [currentDescription, setCurrentDescription] = useState<string>("");
-    const [currentTargetValue, setCurrentTargetValue] = useState<number>(0);
-    const [currentGoalType, setCurrentGoalType] = useState<GoalType>("None");
-    const [currentGoalDirection, setCurrentGoalDirection] = useState<GoalDirection>("None");
-    const [currentGoalDate, setCurrentGoalDate] = useState<Date>();
     const [openCalendar, setOpenCalendar] = useState<Boolean>(false);
     
     if (loading) return <Loading />;
@@ -69,12 +64,12 @@ function Goals() {
             setMessage(t("emptyDescription", { ns: "goals"}));
             return;
         }
-        if(goalType == "None") {
+        if(goalType == "NONE") {
             setAlertType("Warning");
             setMessage(t("noneGoalType", { ns: "goals"}));
             return;
         }
-        if(goalDirection == "None") {
+        if(goalDirection == "NONE") {
             setAlertType("Warning");
             setMessage(t("noneGoalDirection", { ns: "goals"}));
             return;
@@ -117,27 +112,27 @@ function Goals() {
     const handleEditGoal = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if(currentTargetValue <= 0) {
+        if(targetValue <= 0) {
             setAlertType("Warning");
             setMessage(t("zeroTargetValue", { ns: "goals"}));
             return;
         }
-        if(currentDescription.length == 0) {
+        if(description.length == 0) {
             setAlertType("Warning");
             setMessage(t("emptyDescription", { ns: "goals"}));
             return;
         }
-        if(currentGoalType == "None") {
+        if(goalType == "NONE") {
             setAlertType("Warning");
             setMessage(t("noneGoalType", { ns: "goals"}));
             return;
         }
-        if(currentGoalDirection == "None") {
+        if(goalDirection == "NONE") {
             setAlertType("Warning");
             setMessage(t("noneGoalDirection", { ns: "goals"}));
             return;
         }
-        if(!currentGoalDate || currentGoalDate < new Date()) {
+        if(!goalDate || goalDate < new Date()) {
             setAlertType("Warning");
             setMessage(t("pastGoalDate", { ns: "goals"}));
             return;
@@ -146,13 +141,13 @@ function Goals() {
         try {
             const payload = {
                 id: currentGoalId,
-                description: currentDescription,
-                targetValue: currentTargetValue,
-                goalType: goalTypeMap[currentGoalType],
-                goalDirection: goalDirectionMap[currentGoalDirection],
-                goalDate : currentGoalDate?.toISOString().split("T")[0]
+                description: description,
+                targetValue: targetValue,
+                goalType: goalTypeMap[goalType],
+                goalDirection: goalDirectionMap[goalDirection],
+                goalDate : goalDate?.toISOString().split("T")[0]
             }
-
+            
             const response = await userGoalsApi.edit(payload as UserGoalRequest);
             setAlertType("Success");
             setMessage(response.message);
@@ -212,17 +207,13 @@ function Goals() {
     const handleEditClick = (id: number, description: string, targetValue: number,
         goalType: GoalType, goalDirection: GoalDirection, goalDate: string) => {
         setCurrentGoalId(id);
-        setCurrentDescription(description);
-        setCurrentTargetValue(targetValue);
-        setCurrentGoalType(goalType);
-        setCurrentGoalDirection(goalDirection);
-        setCurrentGoalDate(dateMaker(goalDate));
+        setDescription(description);
+        setTargetValue(targetValue);
+        setGoalType(goalType);
+        setGoalDirection(goalDirection);
+        setGoalDate(dateMaker(goalDate));
         setOpenEditGoalModal(true);
     }
-
-    const getNormalizedString = (value : string) : string => {
-        return value[0].toUpperCase() + value.slice(1).toLowerCase();
-    };
 
     return (
         <>
@@ -309,8 +300,8 @@ function Goals() {
                                     className="p-2 mb-2 border rounded bg-white w-full border-gray-200 text-gray-500"
                                     onChange={(e) => setGoalType(e.target.value as GoalType)}
                                 >
-                                    <option value="None">{t("goalTypePlaceholder", { ns: "goals" })}</option>
-                                    <option value="Weight">{t("weight", { ns: "goals" })}</option>
+                                    <option value="NONE">{t("goalTypePlaceholder", { ns: "goals" })}</option>
+                                    <option value="WEIGHT">{t("weight", { ns: "goals" })}</option>
                                     <option value="BFP">{t("bfp", { ns: "goals" })}</option>
                                     <option value="BMI">{t("bmi", { ns: "goals" })}</option>
                                 </select>
@@ -323,10 +314,10 @@ function Goals() {
                                     className="p-2 mb-2 border rounded bg-white w-full border-gray-200 text-gray-500"
                                     onChange={(e) => setGoalDirection(e.target.value as GoalDirection)}
                                 >
-                                    <option value="None">{t("goalDirectionPlaceholder", { ns: "goals" })}</option>
-                                    <option value="Increase">{t("increase", { ns: "goals" })}</option>
-                                    <option value="Decrease">{t("decrease", { ns: "goals" })}</option>
-                                    <option value="Maintain">{t("maintain", { ns: "goals" })}</option>
+                                    <option value="NONE">{t("goalDirectionPlaceholder", { ns: "goals" })}</option>
+                                    <option value="INCREASE">{t("increase", { ns: "goals" })}</option>
+                                    <option value="DECREASE">{t("decrease", { ns: "goals" })}</option>
+                                    <option value="MAINTAIN">{t("maintain", { ns: "goals" })}</option>
                                 </select>
                                 <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t("goalDateLabel", { ns: "goals" })}</label>
                                 <div className="relative w-full">
@@ -359,42 +350,42 @@ function Goals() {
                             <Description className="text-black dark:text-gray-100">{t("editGoalDescription", { ns: "goals" })}</Description>
                             <form className="flex flex-col gap-4 mt-2 mb-4" onSubmit={handleEditGoal}>
                                 <IconInput inputId="newGoalDescription" icon={LucideScrollText} onChange={(e) => { setDescription(e.target.value) }}
-                                    type="text" placeholder={t("goalDescriptionPlaceholder", { ns: "goals" })} value={currentDescription}
+                                    type="text" placeholder={t("goalDescriptionPlaceholder", { ns: "goals" })} value={description}
                                     classname={"pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500"} label={t("goalDescriptionLabel", { ns: "goals" })}/>
-                                <label htmlFor="goalEditType" className="block mb-2 text-sm font-medium text-gray-700">{t("goalTypeLabel", { ns: "goals" })}</label>
+                                <label htmlFor="goalEditType" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t("goalTypeLabel", { ns: "goals" })}</label>
                                 <select
-                                    id="goalEditType" value={getNormalizedString(currentGoalType)}
+                                    id="goalEditType" value={goalType}
                                     className="p-2 mb-2 border rounded bg-white w-full border-gray-200 text-gray-500"
                                     onChange={(e) => setGoalType(e.target.value as GoalType)}
                                 >
-                                    <option value="None">{t("goalTypePlaceholder", { ns: "goals" })}</option>
-                                    <option value="Weight">{t("weight", { ns: "goals" })}</option>
+                                    <option value="NONE">{t("goalTypePlaceholder", { ns: "goals" })}</option>
+                                    <option value="WEIGHT">{t("weight", { ns: "goals" })}</option>
                                     <option value="BFP">{t("bfp", { ns: "goals" })}</option>
                                     <option value="BMI">{t("bmi", { ns: "goals" })}</option>
                                 </select>
                                 <IconInput inputId="newGoalTargetValue" icon={LucideGoal} onChange={(e) => { setTargetValue(parseFloat(e.target.value)) }}
-                                    type="number" placeholder={t("goalTargetPlaceholder", { ns: "goals" })} value={currentTargetValue}
+                                    type="number" placeholder={t("goalTargetPlaceholder", { ns: "goals" })} value={targetValue}
                                     classname={"pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500"} label={t("goalTargetLabel", { ns: "goals" })}/>
                                 
-                                <label htmlFor="goalEditDirectionType" className="block mb-2 text-sm font-medium text-gray-700">{t("goalDirectionLabel", { ns: "goals" })}</label>
+                                <label htmlFor="goalEditDirectionType" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t("goalDirectionLabel", { ns: "goals" })}</label>
                                 <select
-                                    id="goalEditDirectionType" value={getNormalizedString(currentGoalDirection)}
+                                    id="goalEditDirectionType" value={goalDirection}
                                     className="p-2 mb-2 border rounded bg-white w-full border-gray-200 text-gray-500"
                                     onChange={(e) => setGoalDirection(e.target.value as GoalDirection)}
                                 >
-                                    <option value="None">{t("goalDirectionPlaceholder", { ns: "goals" })}</option>
-                                    <option value="Increase">{t("increase", { ns: "goals" })}</option>
-                                    <option value="Decrease">{t("decrease", { ns: "goals" })}</option>
-                                    <option value="Maintain">{t("maintain", { ns: "goals" })}</option>
+                                    <option value="NONE">{t("goalDirectionPlaceholder", { ns: "goals" })}</option>
+                                    <option value="INCREASE">{t("increase", { ns: "goals" })}</option>
+                                    <option value="DECREASE">{t("decrease", { ns: "goals" })}</option>
+                                    <option value="MAINTAIN">{t("maintain", { ns: "goals" })}</option>
                                 </select>
-                                <label htmlFor="dateEdit" className="block mb-2 text-sm font-medium text-gray-700">{t("goalDateLabel", { ns: "goals" })}</label>
+                                <label htmlFor="dateEdit" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t("goalDateLabel", { ns: "goals" })}</label>
                                 <div className="relative w-full">
                                     <LucideCalendar className="absolute left-2 top-5 -translate-y-1/2 w-6 h-6 text-gray-300"></LucideCalendar>
-                                    <input id="dateEdit" type="text" placeholder={`${currentGoalDate != null ? formatDate(currentGoalDate) : t("goalDatePlaceholder", { ns: "goals"})}`} className="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" 
+                                    <input id="dateEdit" type="text" placeholder={`${goalDate != null ? formatDate(goalDate) : t("goalDatePlaceholder", { ns: "goals"})}`} className="pl-10 w-full p-2 mb-2 border border-gray-200 rounded text-gray-500" 
                                         onClick={() => setOpenCalendar(!openCalendar)} />
                                 </div>
                                 <DayPicker className={`text-black ${openCalendar ? '' : 'hidden'}`}
-                                    animate mode="single" onSelect={handleDateSelect} selected={currentGoalDate} startMonth={new Date()} endMonth={new Date(new Date().getFullYear() + 3, 11, 31)}
+                                    animate mode="single" onSelect={handleDateSelect} selected={goalDate} startMonth={new Date()} endMonth={new Date(new Date().getFullYear() + 3, 11, 31)}
                                     captionLayout="dropdown" locale={i18n.language == "en" ? enUS : es}
                                 />
                                 <IconButton label={t("saveGoal", { ns: "goals" })} icon={LucideCheck}

@@ -1,1 +1,1 @@
-export type GoalDirection = "None" | "Increase" | "Decrease" | "Maintain";
+export type GoalDirection = "NONE" | "INCREASE" | "DECREASE" | "MAINTAIN";
